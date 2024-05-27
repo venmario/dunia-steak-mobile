@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Almond Croissant"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@id/imageViewCartCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/textDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Almond Croissant Almond Croissant Almond Croissant "
+                android:textSize="13sp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                app:layout_constraintEnd_toEndOf="@+id/textName"
+                app:layout_constraintStart_toStartOf="@id/textName"
+                app:layout_constraintTop_toBottomOf="@id/textName" />
+
+            <TextView
+                android:id="@+id/textTotalPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Rp39.000"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@id/buttonRemove"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/buttonRemove"
+                app:layout_constraintBottom_toBottomOf="@id/buttonRemove"
+                />
+            <ImageView
+                android:id="@+id/imageViewCartCard"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ProgressBar
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/progressBar"
+                app:layout_constraintTop_toTopOf="@id/imageViewCartCard"
+                app:layout_constraintBottom_toBottomOf="@id/imageViewCartCard"
+                app:layout_constraintStart_toStartOf="@id/imageViewCartCard"
+                app:layout_constraintEnd_toEndOf="@id/imageViewCartCard"
+                />
+
+            <Button
+                android:id="@+id/buttonAdd"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/md_theme_primary"
+                android:gravity="center"
+                app:icon="@drawable/baseline_add_24"
+                app:iconGravity="textStart"
+                app:iconSize="20sp"
+                app:iconTint="@color/md_theme_secondary"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewCartCard"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewCartCard" />" />
+
+            <TextView
+                android:id="@+id/textCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonAdd"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAdd"
+                app:layout_constraintTop_toTopOf="@+id/buttonAdd" />
+
+            <Button
+                android:id="@+id/buttonRemove"
+                style="?attr/materialIconButtonOutlinedStyle"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                app:icon="@drawable/baseline_remove_24"
+                app:iconGravity="textStart"
+                app:iconSize="20sp"
+                app:iconTint="@color/md_theme_secondary"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonAdd"
+                app:layout_constraintEnd_toStartOf="@id/textCount"
+                app:layout_constraintTop_toTopOf="@+id/buttonAdd"
+                app:strokeColor="@color/md_theme_primary"
+                app:strokeWidth="2dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

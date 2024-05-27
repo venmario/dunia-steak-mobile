@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/itemMain">
+    <fragment
+        android:id="@+id/itemMain"
+        android:name="com.example.restoapp.view.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/actionProductDetail"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemProfile"
+        android:name="com.example.restoapp.view.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.restoapp.view.ProductDetailFragment"
+        android:label="fragment_detail_product"
+        tools:layout="@layout/fragment_detail_product" >
+        <action
+            android:id="@+id/actionBackToMain"
+            app:destination="@id/itemMain"
+            app:popUpTo="@id/itemMain"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="productId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemCart"
+        android:name="com.example.restoapp.view.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" />
+</navigation>
