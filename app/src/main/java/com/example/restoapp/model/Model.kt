@@ -33,14 +33,20 @@ data class Product(
 )
 
 data class Order(
-    var id:String,
+    var id:String?,
     var orderAt:Date,
     var grandTotal:Int,
     var grandTotalPoin: Int,
-    var userId: Int,
-    var orderStatus:String,
-    var finishedAt:Date,
-    var createdAt:Date,
+    var orderDetails: ArrayList<OrderDetail>,
+    var orderStatus:String?,
+    var finishedAt:Date?,
+    var createdAt:Date?,
+)
+
+data class OrderRequest(
+    var estimation:String,
+    @SerializedName("order_detail")
+    var orderDetails: ArrayList<OrderDetail>
 )
 
 data class OrderDetail(
