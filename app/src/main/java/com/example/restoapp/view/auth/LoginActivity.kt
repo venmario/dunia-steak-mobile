@@ -1,25 +1,59 @@
 package com.example.restoapp.view.auth
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.restoapp.databinding.ActivityLoginBinding
+import com.example.restoapp.view.MainActivity
+import com.example.restoapp.viewmodel.AuthViewModel
 
 class LoginActivity : AppCompatActivity() {
+    companion object{
+        val ACCESS_TOKEN = "ACCESS_TOKEN"
+    }
 
     private lateinit var binding: ActivityLoginBinding
-
+    private lateinit var viewModel: AuthViewModel
+    lateinit var shared: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
-        val username = binding.username
-        val password = binding.password
-        val login = binding.login
-        val loading = binding.loading
+        var sharedFile = applicationContext.packageName
+        shared = applicationContext.getSharedPreferences(sharedFile, Context.MODE_PRIVATE)
+        with(binding){
+
+            buttonSignIn.setOnClickListener {
+                val email = editTextUsername.text.toString()
+                val password = editTextPassword.text.toString()
+                viewModel.signIn(email,password)
+
+                viewModel.accToken.observe(this@LoginActivity, Observer{
+                    var editor: SharedPreferences.Editor = shared.edit()
+                    editor.putString(ACCESS_TOKEN,it)
+                    editor.apply()
+                    startActivity(Intent(applicationContext,MainActivity::class.java))
+                    finish()
+                })
+                viewModel.errorMessage.observe(this@LoginActivity) {
+                    showToast(it)
+                }
+            }
+
+            txtSignUp.setOnClickListener{
+                startActivity(Intent(applicationContext,RegisterActivity::class.java))
+            }
+
+        }
+
 
 //        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
 //            .get(LoginViewModel::class.java)
@@ -66,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
 //        ).show()
 //    }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
     }
 }

@@ -95,4 +95,8 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
 //        Log.d("data", data.toString())
 //        return data
 //    }
+    override fun onCleared() {
+        super.onCleared()
+        queue?.cancelAll(TAG)
+    }
 }

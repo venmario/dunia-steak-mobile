@@ -1,11 +1,13 @@
 package com.example.restoapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.restoapp.databinding.FragmentProfileBinding
+import com.example.restoapp.view.auth.LoginActivity
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -19,5 +21,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        startActivity(Intent(requireContext(),LoginActivity::class.java))
     }
 }
