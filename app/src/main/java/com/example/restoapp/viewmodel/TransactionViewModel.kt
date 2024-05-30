@@ -1,5 +1,6 @@
 package com.example.restoapp.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.util.Log
@@ -12,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.OrderDetail
+import com.example.restoapp.util.getAuthorizationHeaders
 import com.midtrans.sdk.corekit.internal.util.SingleLiveEvent
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,17 +26,10 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
-    val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcmVzdG9hcHAuZmx5LmRldlwvYXBpXC9sb2dpbiIsImlhdCI6MTcxNjgyNzgwMCwiZXhwIjoxNzE2ODMxNDAwLCJuYmYiOjE3MTY4Mjc4MDAsImp0aSI6IjQxMzNVc0EwN2ZlaFZtNXkiLCJzdWIiOjQsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.zrOA3UaJFzZbsxjs8Hb0fKzmWRTX7yZ39HmyaGl5r4o"
-
     val transactionUrl = "${GlobalData.apiUrl}/transaction"
 
-    private fun getAuthorizationHeaders():HashMap<String,String> {
-        val headers = HashMap<String,String>()
-        headers["Authorization"] = "Bearer $token"
-        return  headers
-    }
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createTransaction(orderDetails: ArrayList<OrderDetail>){
+    fun createTransaction(orderDetails: ArrayList<OrderDetail>,activity: Activity){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${transactionUrl}/createTransaction"
         val current = LocalDateTime.now()
@@ -66,7 +61,7 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeaders()
+                return getAuthorizationHeaders(activity)
             }
         }
         stringRequest.tag = TAG

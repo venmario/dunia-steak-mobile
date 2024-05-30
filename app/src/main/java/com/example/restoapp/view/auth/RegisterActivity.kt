@@ -32,13 +32,13 @@ class RegisterActivity : AppCompatActivity() {
 
                 val user= User(0,username,firstname,lastname,phonenumber,email,password,0,"")
                 viewModel.register(user)
-                viewModel.registerSuccess.observe(this@RegisterActivity) {
-                    if (it) {
+                viewModel.registerResponse.observe(this@RegisterActivity) {
+                    if (it.success) {
                         Toast.makeText(applicationContext, "Register succeed!", Toast.LENGTH_LONG).show()
                         startActivity(Intent(applicationContext,LoginActivity::class.java))
                         finish()
                     } else {
-                        val errMsg = viewModel.errorMessage.value
+                        val errMsg = it.errorMessage
                         Toast.makeText(applicationContext, errMsg, Toast.LENGTH_LONG).show()
 
                     }

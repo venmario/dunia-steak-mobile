@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        viewModel.getAll()
+        viewModel.getAll(requireActivity())
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter = productListAdapter
         observeViewModel()

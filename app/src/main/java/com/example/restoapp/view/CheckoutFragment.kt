@@ -64,7 +64,7 @@ class CheckoutFragment : Fragment() {
 
         binding.buttonContinue.setOnClickListener {
             orderDetails = GlobalData.orderDetail
-            vmTrans.createTransaction(orderDetails)
+            vmTrans.createTransaction(orderDetails,requireActivity())
 
             vmTrans.snapToken.observe(viewLifecycleOwner) { token ->
                 Log.d("executed","snaptoken : $token")

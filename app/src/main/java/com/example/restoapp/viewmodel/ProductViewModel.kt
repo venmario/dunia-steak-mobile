@@ -1,5 +1,6 @@
 package com.example.restoapp.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -9,6 +10,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.Product
+import com.example.restoapp.util.getAuthorizationHeaders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -18,16 +20,10 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
-    val token = "adsad"
 
     val productUrl = "${GlobalData.apiUrl}/product"
 
-    private fun getAuthorizationHeaders():HashMap<String,String> {
-        val headers = HashMap<String,String>()
-        headers["Authorization"] = "Bearer $token"
-        return  headers
-    }
-    fun getAll(){
+    fun getAll(activity: Activity){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${productUrl}/getProductByCategory/3"
         val stringRequest = object:StringRequest(
@@ -41,14 +37,14 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeaders()
+                return getAuthorizationHeaders(activity)
             }
         }
         stringRequest.tag = TAG
         queue?.add(stringRequest)
     }
 
-    fun getProductById(id:Int){
+    fun getProductById(id:Int,activity: Activity){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${productUrl}/getProductById/$id"
         val stringRequest = object:StringRequest(
@@ -61,7 +57,7 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeaders()
+                return getAuthorizationHeaders(activity)
             }
         }
         stringRequest.tag = TAG

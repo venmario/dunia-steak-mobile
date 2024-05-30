@@ -67,3 +67,21 @@ data class Transcation(
     var statusMessage:String?,
     var paymentType:String?,
 )
+
+data class LoginResponse(
+    var accToken:String?,
+    var success:Boolean,
+    var successMessage:String?,
+    var errorMessage:String?
+)
+data class RegisterResponse(
+    var success:Boolean,
+    var successMessage:String?,
+    var errorMessage:String?
+)
+
+data class RefreshTokenResponse(
+    var status:String,
+    var newToken:String?,
+    var code:Int
+)

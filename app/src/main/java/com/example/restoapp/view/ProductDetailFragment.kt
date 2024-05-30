@@ -33,7 +33,7 @@ class ProductDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         val productId = ProductDetailFragmentArgs.fromBundle(requireArguments()).productId
-        viewModel.getProductById(productId)
+        viewModel.getProductById(productId,requireActivity())
 
         var price:Int?=null
         var productSelected:Product?=null

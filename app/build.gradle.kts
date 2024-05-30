@@ -76,4 +76,6 @@ dependencies {
 
     //midtrans
     implementation("com.midtrans:uikit:2.0.0-SANDBOX")
+    //jwt
+    implementation("com.auth0.android:jwtdecode:2.0.2")
 }

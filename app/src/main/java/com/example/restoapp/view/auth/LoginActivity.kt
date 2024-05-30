@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.restoapp.databinding.ActivityLoginBinding
+import com.example.restoapp.util.showToast
 import com.example.restoapp.view.MainActivity
 import com.example.restoapp.viewmodel.AuthViewModel
 
@@ -36,16 +36,17 @@ class LoginActivity : AppCompatActivity() {
                 val password = editTextPassword.text.toString()
                 viewModel.signIn(email,password)
 
-                viewModel.accToken.observe(this@LoginActivity, Observer{
-                    var editor: SharedPreferences.Editor = shared.edit()
-                    editor.putString(ACCESS_TOKEN,it)
-                    editor.apply()
-                    startActivity(Intent(applicationContext,MainActivity::class.java))
-                    finish()
+                viewModel.loginResponse.observe(this@LoginActivity, Observer{
+                    if(it.success){
+                        val editor: SharedPreferences.Editor = shared.edit()
+                        editor.putString(ACCESS_TOKEN,it.accToken)
+                        editor.apply()
+                        startActivity(Intent(applicationContext,MainActivity::class.java))
+                        finish()
+                    }else{
+                        showToast(it.errorMessage!!,applicationContext)
+                    }
                 })
-                viewModel.errorMessage.observe(this@LoginActivity) {
-                    showToast(it)
-                }
             }
 
             txtSignUp.setOnClickListener{
@@ -100,7 +101,4 @@ class LoginActivity : AppCompatActivity() {
 //        ).show()
 //    }
 
-    private fun showToast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
-    }
 }
