@@ -1,5 +1,6 @@
 package com.example.restoapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -35,27 +36,32 @@ class CartListAdapter(private val orderDetailList:ArrayList<OrderDetail>, privat
                 qty += 1
                 calculatePrice(price,qty,holder.binding)
                 udpateOrderDetails(GlobalData.orderDetail, orderDetail.product, qty)
+                Log.d("cart list", "global od list : ${GlobalData.orderDetail}")
             }
             buttonRemove.setOnClickListener {
                 qty -= 1
                 calculatePrice(price,qty,holder.binding)
                 udpateOrderDetails(GlobalData.orderDetail, orderDetail.product, qty)
+                Log.d("cart list", "global od list : ${GlobalData.orderDetail}")
             }
         }
     }
 
     private fun udpateOrderDetails(orderDetails: ArrayList<OrderDetail>, product: Product, qty:Int){
+        Log.d("cart list ","product id : ${product.id}")
+        Log.d("cart list ","qty : $qty")
         val iterator = orderDetails.iterator()
         while (iterator.hasNext()){
             val orderDetail = iterator.next()
+            Log.d("cart list", "id product od : ${orderDetail.product.id}")
             if(orderDetail.product.id == product.id){
                 if (qty== 0){
                     iterator.remove()
                 }else{
                     orderDetail.quantity = qty
                 }
+                break
             }
-            break
         }
         setGrandtotal(orderDetails)
         updateOrderDetailList(orderDetails)
@@ -80,6 +86,4 @@ class CartListAdapter(private val orderDetailList:ArrayList<OrderDetail>, privat
         orderDetailList.addAll(newestOrderDetailList)
         notifyDataSetChanged()
     }
-
-
 }

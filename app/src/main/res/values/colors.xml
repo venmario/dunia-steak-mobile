@@ -2,11 +2,13 @@
 <resources>
 <!--    <color name="md_theme_primary">#6D5E0F</color>-->
     <color name="md_theme_primary">#efcf95</color>
+    <color name="md_theme_primaryDarker">#d1b575</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#F8E287</color>
     <color name="md_theme_onPrimaryContainer">#221B00</color>
 <!--    <color name="md_theme_secondary">#665E40</color>-->
     <color name="md_theme_secondary">#2e2e2e</color>
+    <color name="md_theme_secondaryLighter">#a3a3a3</color>
     <color name="md_theme_onSecondary">#FFFFFF</color>
     <color name="md_theme_secondaryContainer">#EEE2BC</color>
     <color name="md_theme_onSecondaryContainer">#211B04</color>

@@ -31,7 +31,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewmodel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
-        val accToken = getAccToken(requireActivity())
+        val (accToken) = getAccToken(requireActivity())
         accToken?.let {
             if (it.isNotEmpty()){
                 val expToken = JWT(it).expiresAt
@@ -41,7 +41,7 @@ class ProfileFragment : Fragment() {
                     //acctoken expired
                     if( Date().time > expToken.time){
                         Log.d("exp token", "token expired")
-                        setNewAccToken(requireActivity(),"")
+                        setNewAccToken(requireActivity(),"","")
                         startActivity(Intent(requireContext(),LoginActivity::class.java))
                     }else{
                         Log.d("exp token", "not expired yet")
@@ -53,7 +53,6 @@ class ProfileFragment : Fragment() {
                 startActivity(Intent(requireContext(),LoginActivity::class.java))
             }
         }
-
     }
 
     fun observeViewModel(){

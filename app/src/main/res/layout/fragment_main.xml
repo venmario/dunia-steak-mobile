@@ -15,10 +15,95 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headerContainer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_theme_primary">
+                <TextView
+                    android:id="@+id/textWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/penawaran"
+                    app:layout_constraintTop_toBottomOf="@id/textWelcome"
+                    app:layout_constraintStart_toStartOf="@id/textWelcome"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/buttonHistory"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/md_theme_primaryDarker"
+                    android:gravity="center"
+                    app:icon="@drawable/baseline_history_24"
+                    app:iconGravity="textStart"
+                    app:iconSize="24sp"
+                    app:iconTint="#fff"
+                    android:layout_marginTop="16dp"
+                    app:layout_goneMarginEnd="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"/>
+
+                <Button
+                    android:id="@+id/buttonNotification"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/md_theme_primaryDarker"
+                    android:gravity="center"
+                    app:icon="@drawable/baseline_notifications_24"
+                    app:iconGravity="textStart"
+                    app:iconSize="24sp"
+                    app:iconTint="#fff"
+                    android:layout_marginTop="16dp"
+                    app:layout_goneMarginEnd="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <Button
+                    android:id="@+id/buttonLogin"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Login Now >"
+                    android:backgroundTint="#fff"
+                    android:textColor="@color/md_theme_secondary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="gone"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:id="@+id/recView"
+                app:layout_constraintTop_toBottomOf="@+id/headerContainer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 />
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -29,6 +114,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:id="@+id/progressLoad"
                 />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

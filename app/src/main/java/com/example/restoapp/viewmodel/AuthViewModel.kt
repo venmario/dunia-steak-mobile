@@ -28,21 +28,21 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
     val authUrl = GlobalData.apiUrl
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
-    fun signIn(email:String,password:String){
+    fun signIn(username:String,password:String){
         val url = "$authUrl/login"
         queue = Volley.newRequestQueue(getApplication())
         val stringRequest = object: StringRequest(
-            Method.POST, url,{
+                POST, url,{
                 val result = JSONObject(it)
                 Log.d("SIGN IN", "sign in response : $it")
                 val code = result.getInt("code")
                 if (code == 200){
                     val accToken = result.getString("token")
-                    loginResponse.value = LoginResponse(accToken,true,"",null)
+                    loginResponse.value = LoginResponse(accToken,username,true,"",null)
                     Log.d("SIGN IN", "acc token : $accToken")
                 }else{
                     val errMsg = result.getString("message")
-                    loginResponse.value = LoginResponse(null,false,null,errMsg)
+                    loginResponse.value = LoginResponse(null,null,false,null,errMsg)
                     Log.d("SIGN IN", "err msg : $errMsg")
                 }
             },{
@@ -53,7 +53,7 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
         ){
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String,String>()
-                params["email"] = email
+                params["username"] = username
                 params["password"] = password
                 return params
             }

@@ -17,7 +17,8 @@ data class User(
 
 data class Category(
     var id:Int,
-    var name:String
+    var name:String,
+    var product:ArrayList<Product>
 )
 
 data class Product(
@@ -34,9 +35,9 @@ data class Product(
 
 data class Order(
     var id:String?,
-    var orderAt:Date,
-    var grandTotal:Int,
-    var grandTotalPoin: Int,
+    var orderAt:Date?,
+    var grandTotal:Int?,
+    var grandTotalPoin: Int?,
     var orderDetails: ArrayList<OrderDetail>,
     var orderStatus:String?,
     var finishedAt:Date?,
@@ -46,9 +47,17 @@ data class Order(
 data class OrderRequest(
     var estimation:String,
     @SerializedName("order_detail")
-    var orderDetails: ArrayList<OrderDetail>
+    var orderDetails: ArrayList<OrderDetailRequest>
 )
 
+data class OrderDetailRequest(
+    @SerializedName("product_id")
+    var productId:Int,
+    var price:Int,
+    var poin:Int,
+    var quantity:Int,
+    var note:String?,
+)
 data class OrderDetail(
     var product:Product,
     var price:Int,
@@ -70,6 +79,7 @@ data class Transcation(
 
 data class LoginResponse(
     var accToken:String?,
+    var username:String?,
     var success:Boolean,
     var successMessage:String?,
     var errorMessage:String?

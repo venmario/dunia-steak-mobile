@@ -3,6 +3,7 @@ package com.example.restoapp.util
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -28,17 +29,20 @@ fun ImageView.loadImage(url: String?, progressBar: ProgressBar){
         })
 }
 
-fun getAccToken(activity: Activity):String?{
+fun getAccToken(activity: Activity):List<String?>{
     val shared = activity.getSharedPreferences(activity.packageName, Context.MODE_PRIVATE)
     val accToken = shared.getString(LoginActivity.ACCESS_TOKEN, "")
-
-    return accToken
+    val username = shared.getString(LoginActivity.USERNAME,"")
+    Log.d("util", "acc token : $accToken")
+    Log.d("util", "username : $username")
+    return listOf( accToken,username )
 }
 
-fun setNewAccToken(activity: Activity, newToken:String){
+fun setNewAccToken(activity: Activity, newToken:String, username:String){
     val shared = activity.getSharedPreferences(activity.packageName, Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = shared.edit()
     editor.putString(LoginActivity.ACCESS_TOKEN,newToken)
+    editor.putString(LoginActivity.USERNAME,username)
     editor.apply()
 }
 fun showToast(message: String,applicationContext:Context) {
@@ -46,7 +50,7 @@ fun showToast(message: String,applicationContext:Context) {
 }
 
 fun getAuthorizationHeaders(activity: Activity):HashMap<String,String> {
-    val token = getAccToken(activity)
+    val (token) = getAccToken(activity)
     val headers = HashMap<String,String>()
     headers["Authorization"] = "Bearer $token"
     return  headers

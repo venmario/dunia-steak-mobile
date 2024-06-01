@@ -12,6 +12,9 @@
         <action
             android:id="@+id/actionProductDetail"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/actionHistoryList"
+            app:destination="@id/historyListFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemProfile"
@@ -37,4 +40,13 @@
         android:name="com.example.restoapp.view.CheckoutFragment"
         android:label="fragment_checkout"
         tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/historyListFragment"
+        android:name="com.example.restoapp.view.history.HistoryListFragment"
+        android:label="fragment_history_list"
+        tools:layout="@layout/fragment_history_list" >
+        <action
+            android:id="@+id/actionBackToMainFromHistoryList"
+            app:destination="@id/itemMain" />
+    </fragment>
 </navigation>

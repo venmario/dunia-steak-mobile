@@ -15,6 +15,7 @@ import com.example.restoapp.viewmodel.AuthViewModel
 class LoginActivity : AppCompatActivity() {
     companion object{
         val ACCESS_TOKEN = "ACCESS_TOKEN"
+        val USERNAME = "USERNAME"
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -40,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
                     if(it.success){
                         val editor: SharedPreferences.Editor = shared.edit()
                         editor.putString(ACCESS_TOKEN,it.accToken)
+                        editor.putString(USERNAME,it.username)
                         editor.apply()
                         startActivity(Intent(applicationContext,MainActivity::class.java))
                         finish()

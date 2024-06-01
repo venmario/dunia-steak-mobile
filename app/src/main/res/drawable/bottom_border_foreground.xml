@@ -1,0 +1,9 @@
+<!-- res/drawable/bottom_border_foreground.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="0.8dp" android:color="@color/md_theme_secondaryLighter" />
+        </shape>
+    </item>
+</layer-list>

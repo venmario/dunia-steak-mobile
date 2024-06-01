@@ -14,12 +14,14 @@ import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.OrderDetail
 import com.example.restoapp.model.Product
 import com.example.restoapp.util.loadImage
+import com.example.restoapp.viewmodel.OrderViewModel
 import com.example.restoapp.viewmodel.ProductViewModel
 import com.google.gson.Gson
 
 class ProductDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailProductBinding
     private lateinit var viewModel: ProductViewModel
+    private lateinit var viewModelOrder: OrderViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +34,7 @@ class ProductDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+        viewModelOrder = ViewModelProvider(this).get(OrderViewModel::class.java)
         val productId = ProductDetailFragmentArgs.fromBundle(requireArguments()).productId
         viewModel.getProductById(productId,requireActivity())
 
@@ -74,16 +77,21 @@ class ProductDetailFragment : Fragment() {
                 val iterator = orderDetails.iterator()
                 productSelected.let {
                     Log.d("product selected", productSelected.toString())
+                    var found = false
                     while (iterator.hasNext()) {
                         val orderDetail = iterator.next()
                         if (orderDetail.product.id == productSelected!!.id) {
-                            iterator.remove()
+                            orderDetail.quantity+=total
+                            found = true
                             break
                         }
                     }
-                    orderDetails.add(OrderDetail(productSelected!!,
-                        productSelected!!.price, productSelected!!.poin,total,note))
-                    Log.d("order details", Gson().toJson(orderDetails))
+                    if(!found){
+                        orderDetails.add(OrderDetail(productSelected!!,
+                            productSelected!!.price, productSelected!!.poin,total,note))
+                        Log.d("order details", Gson().toJson(orderDetails))
+                    }
+                    requireParentFragment().childFragmentManager.popBackStack()
                 }
             }
         }

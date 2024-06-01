@@ -9,13 +9,14 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.restoapp.global.GlobalData
+import com.example.restoapp.model.Category
 import com.example.restoapp.model.Product
 import com.example.restoapp.util.getAuthorizationHeaders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class ProductViewModel(application: Application): AndroidViewModel(application) {
-    val productsLD = MutableLiveData<List<Product>>()
+    val categoriesLD = MutableLiveData<List<Category>>()
     val productLD = MutableLiveData<Product>()
 
     val TAG = "volleyTag"
@@ -25,12 +26,12 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
 
     fun getAll(activity: Activity){
         queue = Volley.newRequestQueue(getApplication())
-        val url = "${productUrl}/getProductByCategory/3"
+        val url = "${productUrl}/getProductByCategory"
         val stringRequest = object:StringRequest(
             Method.GET, url, {
-                val sType = object : TypeToken<List<Product>>(){}.type
-                val result = Gson().fromJson<List<Product>>(it,sType)
-                productsLD.value = result as ArrayList<Product>?
+                val sType = object : TypeToken<List<Category>>(){}.type
+                val result = Gson().fromJson<List<Category>>(it,sType)
+                categoriesLD.value = result as ArrayList<Category>?
                 Log.d("product", it.toString())
             },{
                 Log.d("product error", it.toString())
