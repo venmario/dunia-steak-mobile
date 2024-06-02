@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
 import com.example.restoapp.R
@@ -28,12 +29,14 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("main fragment", "on create view")
         binding =FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("main fragment", "on view created")
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         viewModel.getAll(requireActivity())
@@ -63,6 +66,10 @@ class MainFragment : Fragment() {
         }
         binding.buttonLogin.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+        binding.buttonHistory.setOnClickListener {
+            val action = MainFragmentDirections.actionHistoryList()
+            Navigation.findNavController(it).navigate(action)
         }
         observeViewModel()
 

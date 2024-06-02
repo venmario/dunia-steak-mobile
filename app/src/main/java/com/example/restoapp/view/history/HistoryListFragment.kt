@@ -5,15 +5,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.restoapp.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.restoapp.adapter.HistoryListAdapter
+import com.example.restoapp.databinding.FragmentHistoryListBinding
+import com.example.restoapp.viewmodel.TransactionViewModel
 
 class HistoryListFragment : Fragment() {
-
+    private lateinit var binding: FragmentHistoryListBinding
+    private lateinit var viewmodel: TransactionViewModel
+    private val historyListAdapter = HistoryListAdapter(arrayListOf())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_list, container, false)
+    ): View {
+        binding = FragmentHistoryListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewmodel = ViewModelProvider(this).get(TransactionViewModel::class.java)
+        binding.historyRecView.layoutManager = LinearLayoutManager(context)
+        binding.historyRecView.adapter = historyListAdapter
+        viewmodel.getTransactions(requireActivity())
+        observeVM()
+    }
+
+    private fun observeVM() {
+        viewmodel.hitoriesLD.observe(viewLifecycleOwner){
+            historyListAdapter.updateHistoryList(it)
+        }
     }
 }

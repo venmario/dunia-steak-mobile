@@ -48,5 +48,17 @@
         <action
             android:id="@+id/actionBackToMainFromHistoryList"
             app:destination="@id/itemMain" />
+        <action
+            android:id="@+id/actionToHistoryDetail"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyDetailFragment"
+        android:name="com.example.restoapp.view.history.HistoryDetailFragment"
+        android:label="fragment_history_detail"
+        tools:layout="@layout/fragment_history_detail" >
+        <argument
+            android:name="orderId"
+            app:argType="string" />
     </fragment>
 </navigation>

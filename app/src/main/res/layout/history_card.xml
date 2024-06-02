@@ -10,6 +10,7 @@
     android:foreground="@drawable/bottom_border_foreground"
     android:id="@+id/cardTransactionParent">
     <TextView
+        android:id="@+id/textStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DONE"
@@ -71,6 +72,7 @@
         android:layout_height="0.5dp"
         android:background="@color/md_theme_secondaryLighter" />
     <TextView
+        android:id="@+id/textTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="2 Item - Rp 43.000"

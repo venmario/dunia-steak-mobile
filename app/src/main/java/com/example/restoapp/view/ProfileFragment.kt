@@ -53,6 +53,12 @@ class ProfileFragment : Fragment() {
                 startActivity(Intent(requireContext(),LoginActivity::class.java))
             }
         }
+
+        binding.textLogout.setOnClickListener {
+            setNewAccToken(requireActivity(),"","")
+            startActivity(Intent(requireContext(),LoginActivity::class.java))
+            requireActivity().finish()
+        }
     }
 
     fun observeViewModel(){

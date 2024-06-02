@@ -1,5 +1,6 @@
 package com.example.restoapp.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
+import com.example.restoapp.R
 import com.example.restoapp.adapter.CartListAdapter
 import com.example.restoapp.databinding.FragmentCheckoutBinding
 import com.example.restoapp.global.GlobalData
@@ -38,13 +40,20 @@ class CheckoutFragment : Fragment() {
     private lateinit var orderDetailListAdapter:CartListAdapter
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result?.resultCode == AppCompatActivity.RESULT_OK) {
+            Log.d("result code",result.resultCode.toString())
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 result.data?.let {
                     val transactionResult = it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)
                     Toast.makeText(this.context, "${transactionResult?.transactionId}", Toast.LENGTH_LONG).show()
+                    if (transactionResult != null) {
+                        Toast.makeText(requireContext(), "Transaction ID: " + transactionResult.transactionId + ". Message: " + transactionResult.status, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Transaction Invalid", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -134,13 +143,14 @@ class CheckoutFragment : Fragment() {
         viewModel.setGrandTotal(grandTotal)
     }
 
+    @SuppressLint("ResourceType")
     private fun buildUiKit() {
         UiKitApi.Builder()
             .withContext(requireContext())
             .withMerchantUrl("https://restoapp.fly.dev/api/")
             .withMerchantClientKey("SB-Mid-client-3bwg6AeHieg8hIXf")
             .enableLog(true)
-            .withColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
+            .withColorTheme(CustomColorTheme(getString(R.color.md_theme_secondary), getString(R.color.md_theme_secondary),getString(R.color.md_theme_secondary)))
             .build()
         uiKitCustomSetting()
     }

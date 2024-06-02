@@ -66,7 +66,18 @@ data class OrderDetail(
     var note:String?,
 )
 
-data class Transcation(
+data class Transaction(
+    var transactionId:String?,
+    var grossAmount:Double,
+    var order:Order,
+    var transactionTime:Date?,
+    var settlementTime:Date?,
+    var transactionStatus:String?,
+    var statusMessage:String?,
+    var paymentType:String?,
+)
+
+data class TranscationRequest(
     var transactionId:String?,
     var grossAmount:Double,
     var orderId:String,
@@ -94,4 +105,38 @@ data class RefreshTokenResponse(
     var status:String,
     var newToken:String?,
     var code:Int
+)
+
+data class DetailProduct(
+    val name:String,
+    val quantity: Int,
+    val price: Int?,
+    val image: String?,
+    val description: String?,
+    val note:String?
+)
+data class HistoryOrder(
+    @SerializedName("order_id")
+    val orderId:String,
+    val status:String,
+    @SerializedName("grandtotal")
+    val grandTotal: Int,
+    @SerializedName("total_item")
+    val totalItem: Int,
+    @SerializedName("updated_at")
+    val updatedAt:String,
+    val details: ArrayList<DetailProduct>
+)
+
+data class HistoryOrderDetail(
+    @SerializedName("order_id")
+    val orderId:String,
+    val status:String,
+    @SerializedName("grandtotal")
+    val grandTotal: Int,
+    @SerializedName("updated_at_date")
+    val date:String,
+    @SerializedName("updated_at_time")
+    val time:String,
+    val details: ArrayList<DetailProduct>
 )
