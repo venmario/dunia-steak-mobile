@@ -6,6 +6,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restoapp.databinding.FoodCardBinding
 import com.example.restoapp.model.Product
+import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.loadImage
 import com.example.restoapp.view.MainFragmentDirections
 
@@ -23,8 +24,7 @@ class ProductListAdapter(private val productList:ArrayList<Product>):RecyclerVie
         val product = productList[position]
         with(holder.binding){
             textItemName.text = product.name
-            textItemDesc.text = product.description
-            textItemPrice.text = "${product.price},000"
+            textItemPrice.text = convertToRupiah(product.price*1000)
             imageView.loadImage(product.image, progressImageCard)
 
             cardViewProductCard.setOnClickListener {

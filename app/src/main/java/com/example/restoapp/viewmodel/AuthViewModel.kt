@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.LoginResponse
+import com.example.restoapp.model.LogoutResponse
 import com.example.restoapp.model.RefreshTokenResponse
 import com.example.restoapp.model.RegisterResponse
 import com.example.restoapp.model.User
@@ -23,13 +24,15 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
     val loginResponse = MutableLiveData<LoginResponse>()
     val registerResponse = MutableLiveData<RegisterResponse>()
     val refreshTokenResponse = MutableLiveData<RefreshTokenResponse>()
+    val logoutResponse = MutableLiveData<LogoutResponse>()
     val userLD = MutableLiveData<User>()
 
     val authUrl = GlobalData.apiUrl
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
-    fun signIn(username:String,password:String){
+    fun signIn(username:String,password:String,oldFcmToken:String,currentFcmToken:String){
         val url = "$authUrl/login"
+        Log.d("url", url)
         queue = Volley.newRequestQueue(getApplication())
         val stringRequest = object: StringRequest(
                 POST, url,{
@@ -38,11 +41,11 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
                 val code = result.getInt("code")
                 if (code == 200){
                     val accToken = result.getString("token")
-                    loginResponse.value = LoginResponse(accToken,username,true,"",null)
+                    loginResponse.value = LoginResponse(accToken,username,true,"",null,null)
                     Log.d("SIGN IN", "acc token : $accToken")
                 }else{
                     val errMsg = result.getString("message")
-                    loginResponse.value = LoginResponse(null,null,false,null,errMsg)
+                    loginResponse.value = LoginResponse(null,null,false,null,errMsg,null)
                     Log.d("SIGN IN", "err msg : $errMsg")
                 }
             },{
@@ -55,6 +58,8 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
                 val params = HashMap<String,String>()
                 params["username"] = username
                 params["password"] = password
+                params["oldFcmToken"] = oldFcmToken
+                params["currentFcmToken"] = currentFcmToken
                 return params
             }
         }
@@ -90,7 +95,35 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
         queue?.add(stringRequest)
     }
 
-    fun getUser(activity:Activity){
+    fun logout(activity:Activity,fcmToken:String?){
+        val url = "$authUrl/logout"
+        queue = Volley.newRequestQueue(getApplication())
+        val stringRequest = object:StringRequest(
+            POST,url,{
+                Log.d("logout","response : $it")
+                val result = Gson().fromJson(it, LogoutResponse::class.java)
+                logoutResponse.value = result
+            },{
+                val result = LogoutResponse(false, it.message.toString())
+                logoutResponse.value = result
+                Log.d("Logout", it.message.toString())
+            }
+        ){
+            override fun getHeaders(): MutableMap<String, String> {
+                return getAuthorizationHeaders(activity)
+            }
+
+            override fun getParams(): MutableMap<String, String> {
+                val params = HashMap<String,String>()
+                params["fcmToken"] = fcmToken.toString()
+                return params
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
+
+    fun getUser(activity: Activity){
         val url = "$authUrl/getUser"
         queue = Volley.newRequestQueue(getApplication())
         val stringRequest = object:StringRequest(
@@ -103,7 +136,7 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
                 Log.d("Profie Page","user : $it")
                 Log.d("Profie PAge",user.toString())
             },{
-                Log.d("Profile Page", it.message.toString())
+                Log.d("Logout", it.message.toString())
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {

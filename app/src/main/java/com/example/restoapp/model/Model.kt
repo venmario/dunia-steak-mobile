@@ -93,7 +93,18 @@ data class LoginResponse(
     var username:String?,
     var success:Boolean,
     var successMessage:String?,
-    var errorMessage:String?
+    var errorMessage:String?,
+    var updatedFcmToken:Boolean?
+)
+
+data class ServiceResult<T>(
+    var isSuccess: Boolean,
+    var errorMessage: String?,
+    var data:T?
+)
+data class LogoutResponse(
+    var isSuccess:Boolean,
+    var errorMessage: String?
 )
 data class RegisterResponse(
     var success:Boolean,
@@ -116,6 +127,8 @@ data class DetailProduct(
     val note:String?
 )
 data class HistoryOrder(
+    @SerializedName("transaction_id")
+    val transactionId: String,
     @SerializedName("order_id")
     val orderId:String,
     val status:String,
@@ -129,8 +142,20 @@ data class HistoryOrder(
 )
 
 data class HistoryOrderDetail(
+    @SerializedName("transaction_id")
+    val transactionId: String?,
+    val issuer:String?,
+    @SerializedName("va_number")
+    val vaNumber:String?,
+    val bank:String?,
+    @SerializedName("payment_type")
+    val paymentType: String?,
+    @SerializedName("snap_token")
+    val snapToken: String,
     @SerializedName("order_id")
     val orderId:String,
+    @SerializedName("orderer_name")
+    val ordererName:String,
     val status:String,
     @SerializedName("grandtotal")
     val grandTotal: Int,
@@ -139,4 +164,12 @@ data class HistoryOrderDetail(
     @SerializedName("updated_at_time")
     val time:String,
     val details: ArrayList<DetailProduct>
+)
+
+data class Notification(
+    val transactionId: String,
+    val title:String,
+    val body:String,
+    val date:String,
+    var isRead:Boolean
 )

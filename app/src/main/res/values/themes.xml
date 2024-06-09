@@ -54,4 +54,18 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/futura_reguler</item>
     </style>
+    <style name="Rounded.Menu" parent="ShapeAppearance.Material3.Corner.ExtraLarge">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="RoundedSquare">
+        <item name="cornerSize">20%</item>
+    </style>
+    <style name="RoundedSquareMediumBottom">
+        <item name="cornerSizeBottomLeft">30dp</item>
+        <item name="cornerSizeBottomRight">30dp</item>
+    </style>
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

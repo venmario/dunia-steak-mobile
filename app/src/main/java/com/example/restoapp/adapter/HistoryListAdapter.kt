@@ -6,6 +6,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restoapp.databinding.HistoryCardBinding
 import com.example.restoapp.model.HistoryOrder
+import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.view.history.HistoryListFragmentDirections
 
 class HistoryListAdapter(private val historyList:ArrayList<HistoryOrder>):RecyclerView.Adapter<HistoryListAdapter.HistoryListViewHolder>() {
@@ -23,16 +24,16 @@ class HistoryListAdapter(private val historyList:ArrayList<HistoryOrder>):Recycl
         with(holder.binding){
             textStatus.text = history.status.uppercase()
             textOrderTime.text = history.updatedAt
-            var detailsInString:ArrayList<String> = arrayListOf()
+            val detailsInString:ArrayList<String> = arrayListOf()
             for (detail in history.details){
                 detailsInString.add("${detail.quantity} ${detail.name}")
             }
-            var details = detailsInString.joinToString(separator = ", ")
+            val details = detailsInString.joinToString(separator = ", ")
             textDetail.text = details
-            textTotal.text = "${history.totalItem} item - Rp ${history.grandTotal}"
+            textTotal.text = "${history.totalItem} item - ${convertToRupiah( history.grandTotal)}"
             cardTransactionParent.setOnClickListener {
-                val orderId = history.orderId
-                val action = HistoryListFragmentDirections.actionToHistoryDetail(orderId)
+                val transactionId = history.transactionId
+                val action = HistoryListFragmentDirections.actionToHistoryDetail(transactionId)
                 Navigation.findNavController(it).navigate(action)
             }
         }

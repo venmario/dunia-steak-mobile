@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
 import com.example.restoapp.R
@@ -44,11 +45,19 @@ class CheckoutFragment : Fragment() {
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 result.data?.let {
                     val transactionResult = it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)
-                    Toast.makeText(this.context, "${transactionResult?.transactionId}", Toast.LENGTH_LONG).show()
+                    Log.d("transaction result", "transaction id : ${transactionResult?.transactionId}")
                     if (transactionResult != null) {
-                        Toast.makeText(requireContext(), "Transaction ID: " + transactionResult.transactionId + ". Message: " + transactionResult.status, Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(requireContext(), "Transaction Invalid", Toast.LENGTH_LONG).show()
+                        when(transactionResult.status){
+                            UiKitConstants.STATUS_CANCELED -> {
+                                Toast.makeText(context,"CANCELED",Toast.LENGTH_LONG)
+                            }
+                            else -> {
+                                GlobalData.orderDetail.clear()
+                                val transactionId = transactionResult.transactionId
+                                val action = CheckoutFragmentDirections.actionAfterTransaction(transactionId!!)
+                                Navigation.findNavController(requireView()).navigate(action)
+                            }
+                        }
                     }
                 }
             }
@@ -121,7 +130,7 @@ class CheckoutFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.grandTotalLD.observe(viewLifecycleOwner) {
-            binding.textTotalPrice.text = "Total Price : Rp${it.toString()}.000"
+            binding.textTotalPrice.text = "Rp${it.toString()}.000"
             if (it == 0) {
                 binding.scrollView.visibility = View.GONE
                 binding.buttonParent.visibility = View.GONE

@@ -33,7 +33,7 @@ class HistoryListFragment : Fragment() {
     }
 
     private fun observeVM() {
-        viewmodel.hitoriesLD.observe(viewLifecycleOwner){
+        viewmodel.historiesLD.observe(viewLifecycleOwner){
             historyListAdapter.updateHistoryList(it)
         }
     }

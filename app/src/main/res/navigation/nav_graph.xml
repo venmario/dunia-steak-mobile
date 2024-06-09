@@ -15,6 +15,12 @@
         <action
             android:id="@+id/actionHistoryList"
             app:destination="@id/historyListFragment" />
+        <action
+            android:id="@+id/actionNotifToDetailHistory"
+            app:destination="@id/historyDetailFragment" />
+        <action
+            android:id="@+id/actionToListNotification"
+            app:destination="@id/listNotificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemProfile"
@@ -39,7 +45,11 @@
         android:id="@+id/itemCart"
         android:name="com.example.restoapp.view.CheckoutFragment"
         android:label="fragment_checkout"
-        tools:layout="@layout/fragment_checkout" />
+        tools:layout="@layout/fragment_checkout" >
+        <action
+            android:id="@+id/actionAfterTransaction"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/historyListFragment"
         android:name="com.example.restoapp.view.history.HistoryListFragment"
@@ -58,7 +68,26 @@
         android:label="fragment_history_detail"
         tools:layout="@layout/fragment_history_detail" >
         <argument
-            android:name="orderId"
+            android:name="transactionId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/listNotificationFragment"
+        android:name="com.example.restoapp.view.ListNotificationFragment"
+        android:label="fragment_list_notification"
+        tools:layout="@layout/fragment_list_notification" >
+        <action
+            android:id="@+id/actionNotifToHistoryDetail"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.restoapp.view.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.restoapp.view.auth.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

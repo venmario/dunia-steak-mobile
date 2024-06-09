@@ -3,23 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".view.history.HistoryListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="10dp"
+        android:paddingVertical="32dp"
         android:gravity="center_horizontal"
-        android:background="@color/md_theme_primary"
-        android:foreground="@drawable/bottom_border_foreground">
+        >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order History"
-            android:textSize="19sp"
+            android:text="ORDER HISTORY"
+            android:textSize="20sp"
             android:fontFamily="@font/futura_bold"/>
     </LinearLayout>
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerThickness="0.8dp"
+        app:dividerColor="@color/md_theme_secondaryLighter"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecView"
         android:layout_width="match_parent"

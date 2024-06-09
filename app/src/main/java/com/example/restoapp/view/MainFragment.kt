@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
-import com.example.restoapp.R
 import com.example.restoapp.adapter.CategoryListAdapter
 import com.example.restoapp.databinding.FragmentMainBinding
 import com.example.restoapp.util.getAccToken
@@ -39,11 +38,11 @@ class MainFragment : Fragment() {
         Log.d("main fragment", "on view created")
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        viewModel.getAll(requireActivity())
+        viewModel.getAll()
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter = categoryListAdapter
 
-        val (accToken,username) = getAccToken(requireActivity())
+        val (accToken,_) = getAccToken(requireActivity())
         accToken?.let {
             if (it.isNotEmpty()){
                 val expToken = JWT(it).expiresAt
@@ -57,7 +56,7 @@ class MainFragment : Fragment() {
                         notLoggedIn()
                     }else{
                         Log.d("exp token", "not expired yet")
-                        loggerIn(username!!)
+                        loggerIn()
                     }
                 }
             }else{
@@ -71,26 +70,35 @@ class MainFragment : Fragment() {
             val action = MainFragmentDirections.actionHistoryList()
             Navigation.findNavController(it).navigate(action)
         }
+        binding.buttonNotification.setOnClickListener {
+            val action = MainFragmentDirections.actionToListNotification()
+            Navigation.findNavController(it).navigate(action)
+        }
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.getAll()
+            binding.progressLoad.visibility = View.VISIBLE
+            binding.recView.layoutManager = LinearLayoutManager(context)
+            binding.recView.adapter = categoryListAdapter
+            binding.refreshLayout.isRefreshing = false
+        }
         observeViewModel()
-
     }
 
     private fun observeViewModel() {
         viewModel.categoriesLD.observe(viewLifecycleOwner, Observer {
             categoryListAdapter.updatecategoryList(it)
+            binding.progressLoad.visibility = View.GONE
         })
     }
 
-    private fun loggerIn(username:String){
+    private fun loggerIn(){
         binding.buttonHistory.visibility = View.VISIBLE
         binding.buttonNotification.visibility = View.VISIBLE
         binding.buttonLogin.visibility = View.GONE
-        binding.textName.text = username
     }
     private fun notLoggedIn(){
         binding.buttonHistory.visibility = View.GONE
         binding.buttonNotification.visibility = View.GONE
         binding.buttonLogin.visibility = View.VISIBLE
-        binding.textName.text = getString(R.string.penawaran)
     }
 }

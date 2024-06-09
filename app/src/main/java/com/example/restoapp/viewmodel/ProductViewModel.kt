@@ -1,17 +1,16 @@
 package com.example.restoapp.viewmodel
 
-import android.app.Activity
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.android.volley.Request.Method
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.Category
 import com.example.restoapp.model.Product
-import com.example.restoapp.util.getAuthorizationHeaders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -24,10 +23,10 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
 
     val productUrl = "${GlobalData.apiUrl}/product"
 
-    fun getAll(activity: Activity){
+    fun getAll(){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${productUrl}/getProductByCategory"
-        val stringRequest = object:StringRequest(
+        val stringRequest = StringRequest(
             Method.GET, url, {
                 val sType = object : TypeToken<List<Category>>(){}.type
                 val result = Gson().fromJson<List<Category>>(it,sType)
@@ -36,19 +35,15 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
             },{
                 Log.d("product error", it.toString())
             }
-        ){
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeaders(activity)
-            }
-        }
+        )
         stringRequest.tag = TAG
         queue?.add(stringRequest)
     }
 
-    fun getProductById(id:Int,activity: Activity){
+    fun getProductById(id:Int){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${productUrl}/getProductById/$id"
-        val stringRequest = object:StringRequest(
+        val stringRequest = StringRequest(
             Method.GET, url, {
                 val result = Gson().fromJson(it, Product::class.java)
                 productLD.value = result
@@ -56,11 +51,7 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
             },{
                 Log.d("product", it.toString())
             }
-        ){
-            override fun getHeaders(): MutableMap<String, String> {
-                return getAuthorizationHeaders(activity)
-            }
-        }
+        )
         stringRequest.tag = TAG
         queue?.add(stringRequest)
     }

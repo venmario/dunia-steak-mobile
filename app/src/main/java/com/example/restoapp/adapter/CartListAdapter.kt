@@ -8,6 +8,7 @@ import com.example.restoapp.databinding.ProductCartCardBinding
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.OrderDetail
 import com.example.restoapp.model.Product
+import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.loadImage
 import com.example.restoapp.viewmodel.OrderViewModel
 
@@ -77,7 +78,7 @@ class CartListAdapter(private val orderDetailList:ArrayList<OrderDetail>, privat
 
     private fun calculatePrice(price:Int, total:Int, binding: ProductCartCardBinding){
         val totalPrice = price*total
-        binding.textTotalPrice.text = "Rp${totalPrice}.000"
+        binding.textTotalPrice.text = convertToRupiah(totalPrice*1000)
         binding.textCount.text = total.toString()
     }
 

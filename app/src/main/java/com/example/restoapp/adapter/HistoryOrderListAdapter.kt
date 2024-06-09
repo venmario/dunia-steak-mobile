@@ -7,6 +7,7 @@ import com.example.restoapp.databinding.HistoryCardBinding
 import com.example.restoapp.databinding.ProductHistoryCardBinding
 import com.example.restoapp.model.DetailProduct
 import com.example.restoapp.model.OrderDetail
+import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.loadImage
 
 class HistoryOrderListAdapter(val historyDetailList: ArrayList<DetailProduct>):RecyclerView.Adapter<HistoryOrderListAdapter.HistoryOrderViewHolder>() {
@@ -24,7 +25,7 @@ class HistoryOrderListAdapter(val historyDetailList: ArrayList<DetailProduct>):R
         with(holder.binding){
             textProductName.text = detailProduct.name
             textProductDesc.text= detailProduct.description
-            textPrice.text = "Rp ${detailProduct.price}"
+            textPrice.text = convertToRupiah(detailProduct.price!!)
             textQty.text = detailProduct.quantity.toString()
             imageView.loadImage(detailProduct.image, imageProgress)
         }

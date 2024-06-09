@@ -1,26 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.ProfileFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="200dp"
+        android:background="@color/md_theme_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/txtBlank"
-            android:layout_width="match_parent"
+            android:id="@+id/textName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_marginStart="44dp"
+            android:fontFamily="@font/futura_bold"
+            android:text="Hello Laval!"
+            android:textSize="18sp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.431" />
 
-        <TextView
-            android:id="@+id/textLogout"
-            android:clickable="true"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="36dp"
+            android:src="@drawable/img_3816"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.26"
+            tools:srcCompat="@drawable/img_3816" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:backgroundTint="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardElevation="4dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginHorizontal="16dp">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"/>
-    </LinearLayout>
-</FrameLayout>
+            android:layout_height="match_parent"
+            android:layout_marginVertical="24dp"
+            android:layout_marginHorizontal="24dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Points"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+
+                android:textColor="@color/md_theme_secondary"
+                android:fontFamily="@font/futura_bold"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/textPoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/md_theme_primary"
+                android:text="0 pts"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/md_theme_secondary"
+                android:fontFamily="@font/futura_bold"
+                android:textSize="15sp"
+                app:drawableLeftCompat="@drawable/baseline_monetization_on_24" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardElevation="4dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginHorizontal="16dp"
+        android:padding="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_edit_24"
+                android:text="Edit Profile"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_info_outline_24"
+                android:text="Help Center"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_privacy_tip_24"
+                android:text="Privacy and Policy"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_language_24"
+                android:text="Language"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_text_snippet_24"
+                android:text="Terms of Services"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_settings_24"
+                android:text="Settings"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:id="@+id/textLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_logout_24"
+                android:text="Logout"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+            <TextView
+                android:id="@+id/textSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_login_24"
+                android:text="Sign In"
+                android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                android:drawableTint="@color/md_theme_primary"
+                android:textSize="15sp"
+                android:drawablePadding="8dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/futura_bold"/>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

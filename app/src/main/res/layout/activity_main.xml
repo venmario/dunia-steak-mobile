@@ -8,12 +8,20 @@
     tools:context=".view.MainActivity">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            app:shapeAppearance="@style/Rounded.Menu"
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:background="@color/md_theme_primary"
+            app:elevation="8dp"
+            app:itemIconSize="28dp"
+            app:itemIconTint="@color/icon_menu_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
+            app:itemRippleColor="@color/md_theme_primary"
             app:layout_constraintStart_toStartOf="parent"
+            app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_menu" />
 
         <androidx.fragment.app.FragmentContainerView

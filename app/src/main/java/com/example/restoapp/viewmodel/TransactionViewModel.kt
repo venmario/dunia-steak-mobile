@@ -26,12 +26,12 @@ import java.time.format.DateTimeFormatter
 
 class TransactionViewModel(application: Application): AndroidViewModel(application) {
     val historyOrderDetailLD = MutableLiveData<HistoryOrderDetail>()
-    val hitoriesLD = MutableLiveData<ArrayList<HistoryOrder>>()
+    val historiesLD = MutableLiveData<ArrayList<HistoryOrder>>()
     val snapToken = SingleLiveEvent<String>()
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
-    val transactionUrl = "${GlobalData.apiUrl}/transaction"
+    private val transactionUrl = "${GlobalData.apiUrl}/transaction"
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createTransaction(orderDetails: ArrayList<OrderDetail>,activity: Activity){
@@ -81,7 +81,7 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
                 Log.d("history", it.toString())
                 val sType = object : TypeToken<List<HistoryOrder>>(){}.type
                 val result = Gson().fromJson<List<HistoryOrder>>(it,sType)
-                hitoriesLD.value = result as ArrayList<HistoryOrder>
+                historiesLD.value = result as ArrayList<HistoryOrder>
             },{
                 Log.d("history err", it.toString())
             }
@@ -94,9 +94,9 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
         queue?.add(stringRequest)
     }
 
-    fun getOrderById(activity: Activity, orderId:String){
+    fun getTransactionById(activity: Activity, transactionId:String){
         queue = Volley.newRequestQueue(getApplication())
-        val url = "${transactionUrl}/getOrderById/${orderId}"
+        val url = "${transactionUrl}/getTransactionById/${transactionId}"
         val stringRequest = object :StringRequest(
             Method.GET,url,{
                 Log.d("history", it.toString())

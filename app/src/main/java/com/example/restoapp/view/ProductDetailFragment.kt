@@ -36,7 +36,7 @@ class ProductDetailFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         viewModelOrder = ViewModelProvider(this).get(OrderViewModel::class.java)
         val productId = ProductDetailFragmentArgs.fromBundle(requireArguments()).productId
-        viewModel.getProductById(productId,requireActivity())
+        viewModel.getProductById(productId)
 
         var price:Int?=null
         var productSelected:Product?=null
@@ -46,7 +46,7 @@ class ProductDetailFragment : Fragment() {
                 textProductDetailName.text = it.name
                 textProductDetailDesc.text = it.description
                 textProductDetailPrice.text = "Rp${it.price}.000"
-                buttonAddToCart.text = "Tambah - Rp${it.price}.000"
+                buttonAddToCart.text = "Rp${it.price}.000"
                 price = it.price
                 productSelected = it
             }
@@ -99,7 +99,7 @@ class ProductDetailFragment : Fragment() {
 
     private fun calculatePrice(price:Int, total:Int){
         val totalPrice = price*total
-        binding.buttonAddToCart.text = "Tambah - Rp${totalPrice}.000"
+        binding.buttonAddToCart.text = "Rp${totalPrice}.000"
         binding.textCount.text = total.toString()
     }
 }

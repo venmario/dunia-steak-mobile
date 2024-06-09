@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -78,4 +79,8 @@ dependencies {
     implementation("com.midtrans:uikit:2.0.0-SANDBOX")
     //jwt
     implementation("com.auth0.android:jwtdecode:2.0.2")
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
 }

@@ -20,48 +20,35 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/md_theme_primary">
-                <TextView
-                    android:id="@+id/textWelcome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/welcome"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/textName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/penawaran"
-                    app:layout_constraintTop_toBottomOf="@id/textWelcome"
-                    app:layout_constraintStart_toStartOf="@id/textWelcome"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="8dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                android:layout_height="140dp">
 
+                <ImageView
+                    android:layout_width="125dp"
+
+                    android:layout_height="60dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/img_3816"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/img_3816" />
                 <Button
                     android:id="@+id/buttonHistory"
                     style="?attr/materialIconButtonStyle"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/md_theme_primaryDarker"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@color/md_theme_primary"
                     android:gravity="center"
                     app:icon="@drawable/baseline_history_24"
                     app:iconGravity="textStart"
                     app:iconSize="24sp"
-                    app:iconTint="#fff"
-                    android:layout_marginTop="16dp"
-                    app:layout_goneMarginEnd="16dp"
+                    app:iconTint="@color/md_theme_secondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"/>
+                    app:layout_goneMarginEnd="16dp" />
 
                 <Button
                     android:id="@+id/buttonNotification"
@@ -69,31 +56,34 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/md_theme_primaryDarker"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/md_theme_primary"
                     android:gravity="center"
                     app:icon="@drawable/baseline_notifications_24"
                     app:iconGravity="textStart"
                     app:iconSize="24sp"
-                    app:iconTint="#fff"
-                    android:layout_marginTop="16dp"
-                    app:layout_goneMarginEnd="16dp"
+                    app:iconTint="@color/md_theme_secondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_goneMarginEnd="16dp" />
 
                 <Button
                     android:id="@+id/buttonLogin"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Login Now >"
-                    android:backgroundTint="#fff"
+                    android:text="LOGIN NOW"
+                    android:fontFamily="@font/futura_bold"
+                    android:backgroundTint="@color/md_theme_primary"
                     android:textColor="@color/md_theme_secondary"
                     android:textStyle="bold"
+                    android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginEnd="16dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
