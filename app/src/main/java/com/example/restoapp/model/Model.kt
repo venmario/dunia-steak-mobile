@@ -157,6 +157,7 @@ data class HistoryOrderDetail(
     @SerializedName("orderer_name")
     val ordererName:String,
     val status:String,
+    val estimation: String,
     @SerializedName("grandtotal")
     val grandTotal: Int,
     @SerializedName("updated_at_date")

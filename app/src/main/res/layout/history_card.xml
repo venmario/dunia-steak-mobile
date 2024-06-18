@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
+        android:textColor="@color/md_theme_secondary"
         android:text="1 Iced Aren Latte, 1 Iced sea salt,1 Iced Aren Latte, 1 Iced sea salt, 1 Iced Aren Latte, 1 Iced sea salt"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="80dp"/>

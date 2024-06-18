@@ -80,7 +80,7 @@ class AuthViewModel(application: Application):AndroidViewModel(application) {
         val stringRequest = JsonObjectRequest(
             POST,url,body,{
                val success = it.getBoolean("success")
-               val successMsg = it.getString("success")
+               val successMsg = it.getString("message")
                 if(success){
                     registerResponse.value = RegisterResponse(success,successMsg,null)
                 }else{

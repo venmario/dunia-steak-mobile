@@ -17,7 +17,7 @@ class NotificationViewModel(application: Application): AndroidViewModel(applicat
 
     fun getAll(){
         val sharedPreferences: SharedPreferences =
-            MyApplication.getAppContext().getSharedPreferences("shared preferences", MODE_PRIVATE)
+            MyApplication.getAppContext().getSharedPreferences(MyApplication.getAppContext().packageName, MODE_PRIVATE)
         val notificationJson = sharedPreferences.getString("notifications","")
         Log.d("notification json",notificationJson.toString())
         val sType = object : TypeToken<List<Notification>>(){}.type
@@ -29,7 +29,7 @@ class NotificationViewModel(application: Application): AndroidViewModel(applicat
 
     fun addNotification(notification: Notification){
         val sharedPreferences: SharedPreferences =
-            MyApplication.getAppContext().getSharedPreferences("shared preferences", MODE_PRIVATE)
+            MyApplication.getAppContext().getSharedPreferences(MyApplication.getAppContext().packageName, MODE_PRIVATE)
         val notificationJson = sharedPreferences.getString("notifications","")
         val sType = object : TypeToken<List<Notification>>(){}.type
         val result = Gson().fromJson<List<Notification>>(notificationJson,sType)

@@ -16,6 +16,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 fun ImageView.loadImage(url: String?, progressBar: ProgressBar){
     Picasso.get()
@@ -100,4 +101,19 @@ fun convertToRupiah(amount: Int): String {
     val numberFormat = NumberFormat.getCurrencyInstance(localeID)
     numberFormat.maximumFractionDigits = 0 // No decimal places
     return numberFormat.format(amount).replace("Rp", "Rp ")
+}
+
+fun getTimeAgo(time: Long): String {
+    val now = System.currentTimeMillis()
+    val diff = now - time
+
+    return when {
+        diff < TimeUnit.MINUTES.toMillis(1) -> "Now"
+        diff < TimeUnit.MINUTES.toMillis(2) -> "1 minute ago"
+        diff < TimeUnit.HOURS.toMillis(1) -> "${TimeUnit.MILLISECONDS.toMinutes(diff)} minutes ago"
+        diff < TimeUnit.HOURS.toMillis(2) -> "1 hour ago"
+        diff < TimeUnit.DAYS.toMillis(1) -> "${TimeUnit.MILLISECONDS.toHours(diff)} hours ago"
+        diff < TimeUnit.DAYS.toMillis(2) -> "1 day ago"
+        else -> "${TimeUnit.MILLISECONDS.toDays(diff)} days ago"
+    }
 }

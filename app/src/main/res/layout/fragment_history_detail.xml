@@ -38,12 +38,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:textColor="@color/md_theme_secondary"
                     android:fontFamily="@font/futura_bold"
                     android:textSize="16sp"
                     android:textAlignment="center"
                     android:text="Virtual Account Number"/>
                 <TextView
                     android:id="@+id/vaNumber"
+                    android:textColor="@color/md_theme_secondary"
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,6 +91,18 @@
             android:textAlignment="center"
             android:textColor="@color/md_theme_secondary"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textReady"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_theme_secondary"
+            android:text="Ready at 18:17"
+            android:visibility="gone"
+            android:fontFamily="@font/futura_medium"
+            android:textSize="15sp"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -166,6 +180,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_secondary"
                         android:text="Orderer's Name" />
 
                     <Space
@@ -177,6 +192,7 @@
                         android:id="@+id/txtOrdererName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_secondary"
                         android:text="Budi Sudarsaono" />
                 </LinearLayout>
 
@@ -190,6 +206,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_secondary"
                         android:text="Payment Method" />
 
                     <Space
@@ -201,6 +218,7 @@
                         android:id="@+id/txtPaymentMethod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_secondary"
                         android:text="BCA Virtual Account" />
                 </LinearLayout>
 

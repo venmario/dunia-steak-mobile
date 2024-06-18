@@ -33,6 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ready to Pick Up!"
+                    android:textColor="@color/md_theme_secondary"
                     android:fontFamily="@font/futura_bold"
                     android:textSize="16sp"/>
                 <Space
@@ -44,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Now"
+                    android:textColor="@color/md_theme_secondary"
                     android:fontFamily="@font/futura_bold"
                     android:textSize="15sp"/>
             </LinearLayout>
@@ -52,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/md_theme_secondary"
                 android:text="ORDER #2024061234 Ready to Pick Up!"
                 android:fontFamily="@font/futura_medium"
                 android:textSize="15sp"/>

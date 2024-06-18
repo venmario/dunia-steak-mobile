@@ -109,8 +109,12 @@ class HistoryDetailFragment : Fragment() {
                             }
                         }
                     }
+                    if (it.status == "Processing"){
+                        textReady.text = "Ready at ${it.estimation}"
+                        textReady.visibility = View.VISIBLE
+                    }
                     textStatus.text = it.status.uppercase()
-                    textOrderId.text = "ORDER ID #${it.orderId}"
+                    textOrderId.text = "#${it.orderId}"
                     textDate.text = it.date.uppercase()
                     textTime.text = it.time.uppercase()
                     txtOrdererName.text = it.ordererName

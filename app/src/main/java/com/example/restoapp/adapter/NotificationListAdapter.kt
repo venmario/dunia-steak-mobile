@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restoapp.databinding.NotifCardBinding
 import com.example.restoapp.model.Notification
+import com.example.restoapp.util.getTimeAgo
 import com.example.restoapp.view.ListNotificationFragmentDirections
 
 class NotificationListAdapter(private val notificationList:ArrayList<Notification>):RecyclerView.Adapter<NotificationListAdapter.NotificationListViewHolder>() {
@@ -28,7 +29,7 @@ class NotificationListAdapter(private val notificationList:ArrayList<Notificatio
             }
             textTitle.text = notification.title
             textBody.text = notification.body
-            textDateNotification.text = notification.date
+            textDateNotification.text = getTimeAgo(notification.date.toLong())
             cardNotification.setOnClickListener {
                 notification.isRead = true
                 val action = ListNotificationFragmentDirections.actionNotifToHistoryDetail(notification.transactionId)
