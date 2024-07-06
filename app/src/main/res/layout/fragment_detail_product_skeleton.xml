@@ -6,42 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".view.ProductDetailFragment">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include layout="@layout/fragment_detail_product_skeleton"/>
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/productView"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="0dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             app:shapeAppearanceOverlay="@style/RoundedSquareMediumBottom"
-            android:id="@+id/imageViewProductDetail"
+            android:id="@+id/imageViewProductDetailSkeleton"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-        <ProgressBar
-            android:id="@+id/progressImageCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewProductDetail"
-            app:layout_constraintLeft_toLeftOf="@+id/imageViewProductDetail"
-            app:layout_constraintRight_toRightOf="@+id/imageViewProductDetail"
-            app:layout_constraintTop_toTopOf="@+id/imageViewProductDetail" />
+            android:background="@color/md_theme_skeleton"/>
 
         <TextView
-            android:id="@+id/textProductDetailName"
+            android:id="@+id/textProductDetailNameSkeleton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,16 +31,17 @@
             android:textAlignment="center"
             android:fontFamily="@font/futura_bold"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/md_theme_secondary"
             android:text="Iced Vanilla Oat Latte"
+            android:background="@color/md_theme_skeleton"
+            android:textColor="@color/md_theme_skeleton"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewProductDetail" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewProductDetailSkeleton" />
 
         <TextView
-            android:id="@+id/textProductDetailDesc"
+            android:id="@+id/textProductDetailDescSkeleton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -69,126 +52,120 @@
             android:ellipsize="end"
             android:fontFamily="@font/futura_medium"
             android:text="Iced Vanilla Oat Latte"
-            android:textColor="@color/md_theme_secondary"
+            android:textColor="@color/md_theme_skeleton"
+            android:background="@color/md_theme_skeleton"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textProductDetailName" />
+            app:layout_constraintTop_toBottomOf="@+id/textProductDetailNameSkeleton" />
 
         <TextView
-            android:id="@+id/textProductDetailPrice"
-            android:layout_width="0dp"
+            android:id="@+id/textProductDetailPriceSkeleton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:textAlignment="center"
+            android:background="@color/md_theme_skeleton"
             android:text="Rp 39.000"
             android:fontFamily="@font/futura_bold"
             android:textSize="21sp"
-            android:textColor="@color/md_theme_primary"
+            android:textColor="@color/md_theme_skeleton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textProductDetailDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/textProductDetailDescSkeleton" />
 
         <TextView
-            android:id="@+id/textAddNote"
-            android:layout_width="0dp"
+            android:id="@+id/textAddNoteSkeleton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="Note"
+            android:background="@color/md_theme_skeleton"
+            android:textColor="@color/md_theme_skeleton"
             android:textSize="14sp"
-            android:textColor="@color/md_theme_secondary"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/containerAdd" />
+            app:layout_constraintTop_toBottomOf="@+id/containerAddSkeleton" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField"
+            android:id="@+id/textFieldSkeleton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            app:endIconMode="clear_text"
-            android:theme="@style/TextInputLayoutStyle"
+            android:background="@color/md_theme_skeleton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:boxStrokeColor="@color/md_theme_primary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textAddNote">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textNote"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="top"
-                android:textColor="@color/md_theme_secondary"
-                android:inputType="textMultiLine"
-                android:maxLines="2" />
+            app:layout_constraintTop_toBottomOf="@+id/textAddNoteSkeleton">
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerAdd"
+            android:id="@+id/containerAddSkeleton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/textProductDetailPrice"
+            app:layout_constraintTop_toBottomOf="@+id/textProductDetailPriceSkeleton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/buttonAddToCart"
+                android:id="@+id/buttonAddToCartSkeleton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/md_theme_primary"
+                android:backgroundTint="@color/md_theme_skeleton"
                 android:text="Rp 39.000"
+                android:enabled="false"
                 android:fontFamily="@font/futura_bold"
                 android:textSize="16sp"
-                android:textColor="@color/md_theme_secondary"
+                android:textColor="@color/md_theme_skeleton"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/buttonAdd"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAddSkeleton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"  />
 
             <Button
-                android:id="@+id/buttonAdd"
+                android:id="@+id/buttonAddSkeleton"
                 style="?attr/materialIconButtonStyle"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/md_theme_primary"
+                android:backgroundTint="@color/md_theme_skeleton"
                 android:gravity="center"
                 app:icon="@drawable/baseline_add_24"
                 app:iconGravity="textStart"
                 app:iconSize="20sp"
-                app:iconTint="@color/md_theme_secondary"
-                app:layout_constraintBottom_toBottomOf="@+id/buttonAddToCart"
-                app:layout_constraintEnd_toStartOf="@+id/textCount"
-                app:layout_constraintTop_toTopOf="@+id/buttonAddToCart" />
+                app:iconTint="@color/md_theme_skeleton"
+                android:enabled="false"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonAddToCartSkeleton"
+                app:layout_constraintEnd_toStartOf="@+id/textCountSkeleton"
+                app:layout_constraintTop_toTopOf="@+id/buttonAddToCartSkeleton" />
 
             <TextView
-                android:id="@+id/textCount"
+                android:id="@+id/textCountSkeleton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="16dp"
                 android:text="1"
+                android:textColor="@color/md_theme_skeleton"
+                android:background="@color/md_theme_skeleton"
                 android:textSize="18sp"
-                android:textColor="@color/md_theme_secondary"
                 android:fontFamily="@font/futura_bold"
-                app:layout_constraintBottom_toBottomOf="@+id/buttonAdd"
-                app:layout_constraintEnd_toStartOf="@+id/buttonRemove"
-                app:layout_constraintTop_toTopOf="@+id/buttonAdd" />
+                app:layout_constraintBottom_toBottomOf="@+id/buttonAddSkeleton"
+                app:layout_constraintEnd_toStartOf="@+id/buttonRemoveSkeleton"
+                app:layout_constraintTop_toTopOf="@+id/buttonAddSkeleton" />
 
             <Button
-                android:id="@+id/buttonRemove"
+                android:id="@+id/buttonRemoveSkeleton"
                 style="?attr/materialIconButtonOutlinedStyle"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -198,11 +175,12 @@
                 app:icon="@drawable/baseline_remove_24"
                 app:iconGravity="textStart"
                 app:iconSize="20sp"
-                app:iconTint="@color/md_theme_secondary"
-                app:layout_constraintBottom_toBottomOf="@+id/buttonAdd"
+                android:backgroundTint="@color/md_theme_skeleton"
+                app:iconTint="@color/md_theme_skeleton"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonAddSkeleton"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/buttonAdd"
-                app:strokeColor="@color/md_theme_primary"
+                app:layout_constraintTop_toTopOf="@+id/buttonAddSkeleton"
+                app:strokeColor="@color/md_theme_skeleton"
                 app:strokeWidth="2dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

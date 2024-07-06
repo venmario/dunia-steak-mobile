@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.auth0.android.jwt.JWT
 import com.example.restoapp.databinding.FragmentProfileBinding
 import com.example.restoapp.util.clearNotifications
 import com.example.restoapp.util.getAccToken
 import com.example.restoapp.util.getFcmTokens
 import com.example.restoapp.util.setNewAccToken
+import com.example.restoapp.util.setUserPoint
 import com.example.restoapp.view.auth.LoginActivity
 import com.example.restoapp.viewmodel.AuthViewModel
 import java.util.Date
@@ -70,6 +72,7 @@ class ProfileFragment : Fragment() {
             if (it != null){
                 binding.textName.text = "Hello ${it.firstname?.capitalize() }"
                 binding.textPoint.text = "${it.poin} pts"
+                setUserPoint(requireActivity(), it.poin)
                 loggedIn()
             }
         }
@@ -94,5 +97,13 @@ class ProfileFragment : Fragment() {
         binding.textEditProfile.visibility = View.VISIBLE
         binding.textLogout.visibility = View.VISIBLE
         binding.textSignIn.visibility = View.GONE
+        binding.pointCard.setOnClickListener {
+            val action = ProfileFragmentDirections.actionPointProductList()
+            Navigation.findNavController(requireView()).navigate(action)
+        }
+    }
+
+    companion object{
+        val POIN_USER = "POIN_USER"
     }
 }

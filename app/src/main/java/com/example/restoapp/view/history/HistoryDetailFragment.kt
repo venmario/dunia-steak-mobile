@@ -64,6 +64,7 @@ class HistoryDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         buildUiKit()
+        binding.shimmerLayout.startShimmer()
 
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter = historyOrderDetailListAdapter
@@ -80,6 +81,9 @@ class HistoryDetailFragment : Fragment() {
         viewmodel.historyOrderDetailLD.observe(viewLifecycleOwner){
             if (it!=null){
                 with(binding){
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.visibility = View.GONE
+                    dataLayout.visibility = View.VISIBLE
                     buttonPay.visibility = View.GONE
                     when(it.paymentType){
                         "shopeepay" -> {
@@ -117,6 +121,10 @@ class HistoryDetailFragment : Fragment() {
                     textOrderId.text = "#${it.orderId}"
                     textDate.text = it.date.uppercase()
                     textTime.text = it.time.uppercase()
+                    if (it.bookedAt != null){
+                        layoutBooking.visibility = View.VISIBLE
+                        textBookingTime.text = it.bookedAt
+                    }
                     txtOrdererName.text = it.ordererName
                     txtPaymentMethod.text = when(it.paymentType){
                         "bank_transfer"-> {
@@ -126,6 +134,7 @@ class HistoryDetailFragment : Fragment() {
                             }
                         }
                         "shopeepay" -> "ShopeePay"
+                        "Redeem Point"-> "Redeem Point"
                         else -> "GoPay"
                     }
                     txtTotal.text = convertToRupiah(it.grandTotal)

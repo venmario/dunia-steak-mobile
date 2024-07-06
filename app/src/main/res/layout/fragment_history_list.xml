@@ -27,7 +27,20 @@
         android:layout_height="wrap_content"
         app:dividerThickness="0.8dp"
         app:dividerColor="@color/md_theme_secondaryLighter"/>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/history_card_skeleton"/>
+        <include layout="@layout/history_card_skeleton"/>
+        <include layout="@layout/history_card_skeleton"/>
+        <include layout="@layout/history_card_skeleton"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/historyRecView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

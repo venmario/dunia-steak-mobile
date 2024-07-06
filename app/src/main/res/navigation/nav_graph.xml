@@ -26,7 +26,11 @@
         android:id="@+id/itemProfile"
         android:name="com.example.restoapp.view.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/actionPointProductList"
+            app:destination="@id/poinOrderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.example.restoapp.view.ProductDetailFragment"
@@ -81,13 +85,42 @@
             app:destination="@id/historyDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.restoapp.view.auth.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        android:id="@+id/poinOrderFragment"
+        android:name="com.example.restoapp.view.poin.PoinOrderFragment"
+        android:label="fragment_poin_order"
+        tools:layout="@layout/fragment_poin_order" >
+        <action
+            android:id="@+id/actionBackFromPointProductList"
+            app:destination="@id/itemProfile" />
+        <action
+            android:id="@+id/actionDetailPoint"
+            app:destination="@id/detailPoinOrderFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.restoapp.view.auth.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        android:id="@+id/detailPoinOrderFragment"
+        android:name="com.example.restoapp.view.poin.DetailPoinOrderFragment"
+        android:label="fragment_detail_poin_order"
+        tools:layout="@layout/fragment_detail_poin_order" >
+        <action
+            android:id="@+id/actionBackFromDetailPoint"
+            app:destination="@id/poinOrderFragment" />
+        <argument
+            android:name="productId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/actionConfirmOrderPoint"
+            app:destination="@id/confirmOrderPointFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/confirmOrderPointFragment"
+        android:name="com.example.restoapp.view.poin.ConfirmOrderPointFragment"
+        android:label="fragment_confirm_order_point"
+        tools:layout="@layout/fragment_confirm_order_point" >
+        <action
+            android:id="@+id/actionFromConfirmOrderPoint"
+            app:destination="@id/detailPoinOrderFragment" />
+        <action
+            android:id="@+id/actionConfirmOrderPointToHistory"
+            app:destination="@id/historyDetailFragment" />
+    </dialog>
 </navigation>

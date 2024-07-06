@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="24dp"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <TextView
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
         android:background="@drawable/rounded_menu"
+        android:backgroundTint="@color/md_theme_skeleton"
+        android:textColor="@color/md_theme_skeleton"
         android:id="@+id/textCategoryName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Appetizer"
         android:fontFamily="@font/futura_bold"
-        android:textColor="@color/md_theme_secondary"
         android:textSize="20sp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/childRecView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCategoryName" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/food_card_skeleton"/>
+    <include layout="@layout/food_card_skeleton"/>
+    <include layout="@layout/food_card_skeleton"/>
+    <include layout="@layout/food_card_skeleton"/>
+</LinearLayout>

@@ -10,12 +10,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.restoapp.R
 import com.example.restoapp.databinding.ActivityMainBinding
 import com.example.restoapp.util.setFcmTokens
+import com.example.restoapp.viewmodel.StoreViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         FirebaseApp.initializeApp(this)
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -62,8 +65,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         navController = (supportFragmentManager.findFragmentById(R.id.hostFragment) as NavHostFragment).navController
 //        NavigationUI.setupActionBarWithNavController(this, navController)
         binding.bottomNav.setupWithNavController(navController)
@@ -71,7 +72,9 @@ class MainActivity : AppCompatActivity() {
             if (destination.id == R.id.historyDetailFragment
                 || destination.id == R.id.historyListFragment
                 || destination.id == R.id.productDetailFragment
-                || destination.id == R.id.listNotificationFragment) {
+                || destination.id == R.id.listNotificationFragment
+                || destination.id == R.id.poinOrderFragment
+                || destination.id == R.id.detailPoinOrderFragment) {
                 binding.bottomNav.visibility = View.GONE
             }else{
                 binding.bottomNav.visibility = View.VISIBLE

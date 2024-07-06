@@ -13,6 +13,7 @@ import com.example.restoapp.databinding.FragmentDetailProductBinding
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.OrderDetail
 import com.example.restoapp.model.Product
+import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.loadImage
 import com.example.restoapp.viewmodel.OrderViewModel
 import com.example.restoapp.viewmodel.ProductViewModel
@@ -42,17 +43,20 @@ class ProductDetailFragment : Fragment() {
         var productSelected:Product?=null
         viewModel.productLD.observe(viewLifecycleOwner, Observer {
             with(binding){
+                shimmerLayout.stopShimmer()
+                shimmerLayout.visibility = View.GONE
+                productView.visibility = View.VISIBLE
                 imageViewProductDetail.loadImage(it.image, progressImageCard)
                 textProductDetailName.text = it.name
                 textProductDetailDesc.text = it.description
-                textProductDetailPrice.text = "Rp${it.price}.000"
-                buttonAddToCart.text = "Rp${it.price}.000"
+                textProductDetailPrice.text = convertToRupiah(it.price)
+                buttonAddToCart.text = convertToRupiah(it.price)
                 price = it.price
                 productSelected = it
             }
         })
         with(binding){
-            val note:String = textNote.text.toString()
+            shimmerLayout.startShimmer()
             var total = 1
             buttonRemove.setOnClickListener {
                 if(total == 1){
@@ -87,6 +91,8 @@ class ProductDetailFragment : Fragment() {
                         }
                     }
                     if(!found){
+                        val note:String = textNote.text.toString()
+                        Log.d("note",note)
                         orderDetails.add(OrderDetail(productSelected!!,
                             productSelected!!.price, productSelected!!.poin,total,note))
                         Log.d("order details", Gson().toJson(orderDetails))
@@ -99,7 +105,7 @@ class ProductDetailFragment : Fragment() {
 
     private fun calculatePrice(price:Int, total:Int){
         val totalPrice = price*total
-        binding.buttonAddToCart.text = "Rp${totalPrice}.000"
+        binding.buttonAddToCart.text = convertToRupiah(totalPrice)
         binding.textCount.text = total.toString()
     }
 }

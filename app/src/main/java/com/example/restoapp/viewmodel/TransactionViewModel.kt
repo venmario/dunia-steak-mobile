@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -15,6 +16,7 @@ import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.HistoryOrder
 import com.example.restoapp.model.HistoryOrderDetail
 import com.example.restoapp.model.OrderDetail
+import com.example.restoapp.model.ServiceResult
 import com.example.restoapp.util.getAuthorizationHeaders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -29,12 +31,15 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
     val historiesLD = MutableLiveData<ArrayList<HistoryOrder>>()
     val snapToken = SingleLiveEvent<String>()
 
+    private val mutableRedeemPointResult = MutableLiveData<ServiceResult<String>>()
+    val redeemPointResult: LiveData<ServiceResult<String>> get() = mutableRedeemPointResult
+
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
     private val transactionUrl = "${GlobalData.apiUrl}/transaction"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createTransaction(orderDetails: ArrayList<OrderDetail>,activity: Activity){
+    fun createTransaction(orderDetails: ArrayList<OrderDetail>,isBooking:Boolean,time:String?, activity: Activity){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${transactionUrl}/createTransaction"
         val current = LocalDateTime.now()
@@ -55,6 +60,10 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
             jsonArray.put(jsonObject)
         }
         body.put("order_detail", jsonArray)
+        body.put("isBooking", isBooking)
+        if (time !=null){
+            body.put("time",time)
+        }
 
         Log.d("body", body.toString())
         val stringRequest = object:JsonObjectRequest(
@@ -106,6 +115,45 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
                 Log.d("history err", it.toString())
             }
         ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return getAuthorizationHeaders(activity)
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
+
+    fun redeemPoint(activity: Activity,orderDetails: ArrayList<OrderDetail>){
+        queue = Volley.newRequestQueue(getApplication())
+        val url = "${transactionUrl}/redeemPoint"
+
+        val body = JSONObject()
+        val jsonArray = JSONArray()
+        for(orderDetail in orderDetails){
+            val jsonObject = JSONObject()
+            jsonObject.put("product_id",orderDetail.product.id)
+            jsonObject.put("price",orderDetail.price)
+            jsonObject.put("poin",orderDetail.poin)
+            jsonObject.put("quantity",orderDetail.quantity)
+            jsonObject.put("note",orderDetail.note)
+
+            jsonArray.put(jsonObject)
+        }
+        body.put("order_detail", jsonArray)
+
+        Log.d("body", body.toString())
+        val stringRequest = object:JsonObjectRequest(
+            Method.POST,url,body,{
+                Log.d("redeem point response", it.toString())
+                val success = it.getBoolean("isSuccess")
+                val errorMessage = it.getString("errorMessage")
+                val data = it.getString("data")
+                mutableRedeemPointResult.value = ServiceResult(success,errorMessage,data)
+            },{
+                Log.d("redeem point response", it.toString())
+                mutableRedeemPointResult.value = ServiceResult(false,it.toString(),null)
+            }
+        ){
             override fun getHeaders(): MutableMap<String, String> {
                 return getAuthorizationHeaders(activity)
             }

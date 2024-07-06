@@ -26,6 +26,7 @@ class HistoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewmodel = ViewModelProvider(this).get(TransactionViewModel::class.java)
+        binding.shimmerLayout.startShimmer()
         binding.historyRecView.layoutManager = LinearLayoutManager(context)
         binding.historyRecView.adapter = historyListAdapter
         viewmodel.getTransactions(requireActivity())
@@ -34,6 +35,11 @@ class HistoryListFragment : Fragment() {
 
     private fun observeVM() {
         viewmodel.historiesLD.observe(viewLifecycleOwner){
+            with(binding){
+                historyRecView.visibility = View.VISIBLE
+                shimmerLayout.stopShimmer()
+                shimmerLayout.visibility = View.GONE
+            }
             historyListAdapter.updateHistoryList(it)
         }
     }

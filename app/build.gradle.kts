@@ -83,4 +83,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)
+    //splasah screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    //shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

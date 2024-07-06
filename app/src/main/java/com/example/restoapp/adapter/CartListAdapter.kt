@@ -2,6 +2,7 @@ package com.example.restoapp.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restoapp.databinding.ProductCartCardBinding
@@ -11,6 +12,7 @@ import com.example.restoapp.model.Product
 import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.loadImage
 import com.example.restoapp.viewmodel.OrderViewModel
+import com.google.common.base.Strings.isNullOrEmpty
 
 class CartListAdapter(private val orderDetailList:ArrayList<OrderDetail>, private val viewModel: OrderViewModel):RecyclerView.Adapter<CartListAdapter.CartViewHolder>() {
     class CartViewHolder(var binding: ProductCartCardBinding): RecyclerView.ViewHolder(binding.root)
@@ -30,6 +32,11 @@ class CartListAdapter(private val orderDetailList:ArrayList<OrderDetail>, privat
             textName.text = orderDetail.product.name
             textDesc.text = orderDetail.product.description
             textCount.text = qty.toString()
+            Log.d("orderDetail.note",orderDetail.note.toString())
+            if (!isNullOrEmpty(orderDetail.note)){
+                textNote.visibility = View.VISIBLE
+                textNote.text = "Note :\n${orderDetail.note}"
+            }
             imageViewCartCard.loadImage(orderDetail.product.image, progressBar)
             calculatePrice(price,qty, holder.binding)
 
@@ -78,7 +85,7 @@ class CartListAdapter(private val orderDetailList:ArrayList<OrderDetail>, privat
 
     private fun calculatePrice(price:Int, total:Int, binding: ProductCartCardBinding){
         val totalPrice = price*total
-        binding.textTotalPrice.text = convertToRupiah(totalPrice*1000)
+        binding.textTotalPrice.text = convertToRupiah(totalPrice)
         binding.textCount.text = total.toString()
     }
 

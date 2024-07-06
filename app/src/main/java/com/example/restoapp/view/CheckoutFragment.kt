@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -22,11 +21,14 @@ import com.example.restoapp.adapter.CartListAdapter
 import com.example.restoapp.databinding.FragmentCheckoutBinding
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.OrderDetail
+import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.getAccToken
 import com.example.restoapp.util.setNewAccToken
 import com.example.restoapp.view.auth.LoginActivity
 import com.example.restoapp.viewmodel.OrderViewModel
 import com.example.restoapp.viewmodel.TransactionViewModel
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.midtrans.sdk.uikit.api.model.CustomColorTheme
 import com.midtrans.sdk.uikit.api.model.TransactionResult
 import com.midtrans.sdk.uikit.external.UiKitApi
@@ -47,11 +49,15 @@ class CheckoutFragment : Fragment() {
                     val transactionResult = it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)
                     Log.d("transaction result", "transaction id : ${transactionResult?.transactionId}")
                     if (transactionResult != null) {
+                        Log.d("transactionResult", "not null")
                         when(transactionResult.status){
                             UiKitConstants.STATUS_CANCELED -> {
-                                Toast.makeText(context,"CANCELED",Toast.LENGTH_LONG)
+                                Log.d("transactionResult.status","canceled")
+                                binding.buttonContinue.text = "CHECK OUT"
+                                enableButton()
                             }
                             else -> {
+                                Log.d("transactionResult stats",transactionResult.status)
                                 GlobalData.orderDetail.clear()
                                 val transactionId = transactionResult.transactionId
                                 val action = CheckoutFragmentDirections.actionAfterTransaction(transactionId!!)
@@ -89,7 +95,29 @@ class CheckoutFragment : Fragment() {
         orderDetailListAdapter.updateOrderDetailList(orderDetails)
 
         checkOrderDetail(orderDetails)
+        var time:String? = null
+        var isScheduledOrder = false
+        notScheduledOrder()
+        val timePicker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
+            .setTheme(R.style.BaseTheme_TimePicker)
+            .setTitleText("Order for")
+            .build()
 
+        timePicker.addOnPositiveButtonClickListener {
+            isScheduledOrder = true
+            scheduledOrder()
+            time = "${timePicker.hour}:${timePicker.minute}"
+            binding.textOrderAt.text = time
+        }
+        timePicker.addOnDismissListener {
+            if (!isScheduledOrder){
+                binding.chipOrderNow.isChecked = true
+                notScheduledOrder()
+                time = null
+            }
+        }
         binding.buttonContinue.setOnClickListener {
             val (accToken) = getAccToken(requireActivity())
             accToken?.let {
@@ -106,7 +134,12 @@ class CheckoutFragment : Fragment() {
                         }else{
                             Log.d("exp token", "not expired yet")
                             orderDetails = GlobalData.orderDetail
-                            vmTrans.createTransaction(orderDetails,requireActivity())
+                            Log.d("isScheduledOrder",isScheduledOrder.toString())
+
+                            binding.buttonContinue.text = "Loading..."
+                            disableButton()
+
+                            vmTrans.createTransaction(orderDetails,isScheduledOrder,time,requireActivity())
 
                             vmTrans.snapToken.observe(viewLifecycleOwner) { token ->
                                 Log.d("executed","snaptoken : $token")
@@ -125,12 +158,35 @@ class CheckoutFragment : Fragment() {
 
         }
 
+        binding.chipOrderNow.setOnClickListener {
+            isScheduledOrder = false
+            notScheduledOrder()
+        }
+
+        binding.chipScheduleOrder.setOnClickListener {
+            Log.d("chip schedule order","clicked")
+            timePicker.show(parentFragmentManager, "tag")
+        }
+
         observeViewModel()
+    }
+    private fun enableButton() {
+        with(binding){
+            buttonContinue.isEnabled = true
+            buttonContinue.setTextColor(resources.getColorStateList(R.color.md_theme_secondary))
+            buttonContinue.backgroundTintList = resources.getColorStateList(R.color.md_theme_primary)
+
+        }
+    }
+    private fun disableButton() {
+        binding.buttonContinue.isEnabled = false
+        binding.buttonContinue.setTextColor(resources.getColorStateList(R.color.md_theme_secondary_disable))
+        binding.buttonContinue.backgroundTintList = resources.getColorStateList(R.color.md_theme_primary_disable)
     }
 
     private fun observeViewModel() {
         viewModel.grandTotalLD.observe(viewLifecycleOwner) {
-            binding.textTotalPrice.text = "Rp${it.toString()}.000"
+            binding.textTotalPrice.text = convertToRupiah(it)
             if (it == 0) {
                 binding.scrollView.visibility = View.GONE
                 binding.buttonParent.visibility = View.GONE
@@ -140,7 +196,6 @@ class CheckoutFragment : Fragment() {
                 binding.buttonParent.visibility = View.VISIBLE
                 binding.textNoOrder.visibility = View.GONE
             }
-
         }
     }
 
@@ -179,5 +234,13 @@ class CheckoutFragment : Fragment() {
             binding.buttonParent.visibility = View.VISIBLE
             binding.textNoOrder.visibility = View.GONE
         }
+    }
+
+    private fun scheduledOrder(){
+        binding.layoutSchedule.visibility = View.VISIBLE
+    }
+
+    private fun notScheduledOrder(){
+        binding.layoutSchedule.visibility = View.GONE
     }
 }

@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restoapp.databinding.CategoryProductLayoutBinding
 import com.example.restoapp.model.Category
 
-class CategoryListAdapter(private val categoryList:ArrayList<Category>):RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>() {
-    class CategoryViewHolder(var binding: CategoryProductLayoutBinding):RecyclerView.ViewHolder(binding.root)
+class CategoryListPoinAdapter (private val categoryList:ArrayList<Category>):RecyclerView.Adapter<CategoryListPoinAdapter.CategoryViewHolder>() {
+    class CategoryViewHolder(var binding: CategoryProductLayoutBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = CategoryProductLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return  CategoryViewHolder(binding)
+        return CategoryViewHolder(binding)
     }
 
     override fun getItemCount(): Int = categoryList.size
@@ -21,17 +21,16 @@ class CategoryListAdapter(private val categoryList:ArrayList<Category>):Recycler
         val category = categoryList[position]
         with(holder.binding){
             textCategoryName.text = category.name
-            val productListAdapter = ProductListAdapter(category.product, this.root.context)
+            val productListAdapter = ProductPoinListAdapter(category.product,this.root.context)
             childRecView.layoutManager= LinearLayoutManager(this.root.context)
             childRecView.isNestedScrollingEnabled = false
             childRecView.adapter = productListAdapter
         }
     }
 
-    fun updatecategoryList(newestCategoryList: List<Category>){
+    fun updatecategoryPoinList(newestCategoryList: List<Category>){
         categoryList.clear()
         categoryList.addAll(newestCategoryList)
         notifyDataSetChanged()
     }
-
 }

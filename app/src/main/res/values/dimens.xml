@@ -4,4 +4,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="rounded_menu">40dp</dimen>
+    <dimen name="splash_screen_icon_size">100dp</dimen>
 </resources>

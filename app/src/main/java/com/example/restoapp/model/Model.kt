@@ -11,7 +11,7 @@ data class User(
     var phonenumber:String?,
     var email:String?,
     var password:String?,
-    var poin:Int?,
+    var poin:Int,
     var role:String
 )
 
@@ -158,6 +158,8 @@ data class HistoryOrderDetail(
     val ordererName:String,
     val status:String,
     val estimation: String,
+    @SerializedName("booked_at")
+    val bookedAt:String?,
     @SerializedName("grandtotal")
     val grandTotal: Int,
     @SerializedName("updated_at_date")
@@ -173,4 +175,16 @@ data class Notification(
     val body:String,
     val date:String,
     var isRead:Boolean
+)
+
+data class DetailOrderPoint(
+    val product: Product,
+    val total: Int,
+    val note: String?
+)
+
+data class Store(
+    var id:Int,
+    var open:String,
+    var close:String
 )

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="16dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imagePaymentPlatformSkeleton"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                android:background="@color/md_theme_skeleton"/>
+            <LinearLayout
+                android:id="@+id/vaContainerSkeleton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_theme_skeleton"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/md_theme_skeleton"
+                    android:fontFamily="@font/futura_bold"
+                    android:textSize="16sp"
+                    android:textAlignment="center"
+                    android:text="Virtual Account Number"/>
+                <TextView
+                    android:id="@+id/vaNumberSkeleton"
+                    android:textColor="@color/md_theme_skeleton"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/futura_bold"
+                    android:textSize="16sp"
+                    android:text="3596081234567890"
+                    android:background="@color/md_theme_skeleton"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_bold"
+            android:text="ORDER ID"
+            android:layout_gravity="center"
+            android:background="@color/md_theme_skeleton"
+            android:textColor="@color/md_theme_skeleton"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textOrderIdSkeleton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/futura_bold"
+            android:text="#TESTING008"
+            android:background="@color/md_theme_skeleton"
+            android:layout_gravity="center"
+            android:textColor="@color/md_theme_skeleton"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textStatusSkeleton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_menu"
+            android:backgroundTint="@color/md_theme_skeleton"
+            android:fontFamily="@font/futura_bold"
+            android:paddingVertical="6dp"
+            android:text="Processing"
+            android:textAlignment="center"
+            android:textColor="@color/md_theme_skeleton"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textReadySkeleton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_theme_skeleton"
+            android:text="Ready at 18:17"
+            android:visibility="gone"
+            android:fontFamily="@font/futura_medium"
+            android:textSize="15sp"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="24dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textDateSkeleton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura_bold"
+                        android:text="SABTU, 12 AUG 2023"
+                        android:background="@color/md_theme_skeleton"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:textSize="15sp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/textTimeSkeleton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura_bold"
+                        android:text="15:32"
+                        android:background="@color/md_theme_skeleton"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:fontFamily="@font/futura_bold"
+                    android:text="YOUR ORDERS"
+                    android:background="@color/md_theme_skeleton"
+                    android:textColor="@color/md_theme_skeleton"
+                    android:textSize="16sp" />
+
+                <include layout="@layout/product_history_card_skeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="16dp"
+                    android:fontFamily="@font/futura_medium"
+                    android:text="PAYMENT DETAIL"
+                    android:background="@color/md_theme_skeleton"
+                    android:textColor="@color/md_theme_skeleton"
+                    android:textSize="15sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:id="@+id/layoutBookingSkeleton"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:text="Booking Time" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/textBookingTimeSkeleton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:text="Monday, 12 Aug 2024 15:32" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:background="@color/md_theme_skeleton"
+                        android:text="Orderer's Name" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/txtOrdererNameSkeleton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_theme_skeleton"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:text="Budi Sudarsaono" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerPaymentMethodSkeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="8dp"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:background="@color/md_theme_skeleton"
+                        android:text="Payment Method" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/txtPaymentMethodSkeleton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:background="@color/md_theme_skeleton"
+                        android:text="BCA Virtual Account" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura_bold"
+                        android:text="Total Purchase"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:background="@color/md_theme_skeleton"
+                        android:textSize="16sp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/txtTotalSkeleton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura_bold"
+                        android:text="Rp 62.000"
+                        android:textColor="@color/md_theme_skeleton"
+                        android:background="@color/md_theme_skeleton"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/buttonPaySkeleton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:text="Pay with ShopeePay"
+        android:fontFamily="@font/futura_bold"
+        android:textSize="18sp"
+        android:backgroundTint="@color/md_theme_primary"
+        android:textColor="@color/md_theme_skeleton"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

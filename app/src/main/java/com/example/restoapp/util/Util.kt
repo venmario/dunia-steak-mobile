@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.example.restoapp.R
 import com.example.restoapp.application.MyApplication
 import com.example.restoapp.view.MainActivity
+import com.example.restoapp.view.ProfileFragment
 import com.example.restoapp.view.auth.LoginActivity
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -84,6 +85,20 @@ fun setNewAccToken(activity: Activity, newToken:String, username:String){
     editor.putString(LoginActivity.ACCESS_TOKEN,newToken)
     editor.putString(LoginActivity.USERNAME,username)
     editor.apply()
+}
+
+fun setUserPoint(activity: Activity, point:Int){
+    val shared = activity.getSharedPreferences(activity.packageName, Context.MODE_PRIVATE)
+    val editor: SharedPreferences.Editor = shared.edit()
+    editor.putString(ProfileFragment.POIN_USER,point.toString())
+    editor.apply()
+}
+
+fun getUserPoint(activity: Activity):String?{
+    val shared = activity.getSharedPreferences(activity.packageName, Context.MODE_PRIVATE)
+    val point = shared.getString(ProfileFragment.POIN_USER, "")
+    Log.d("util", "point : $point")
+    return point
 }
 fun showToast(message: String,applicationContext:Context) {
     Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()

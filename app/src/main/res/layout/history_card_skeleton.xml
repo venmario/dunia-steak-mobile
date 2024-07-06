@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:foreground="@drawable/bottom_border_foreground"
+    android:id="@+id/cardTransactionParent">
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DONE"
+        android:background="@color/md_theme_skeleton"
+        android:textColor="@color/md_theme_skeleton"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/textOrderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@color/md_theme_skeleton"
+            android:textColor="@color/md_theme_skeleton"
+            android:text="Kamis, 28 Sep 2023 17:19"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <Button
+            style="?attr/materialIconButtonOutlinedStyle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="4dp"
+            app:icon="@drawable/baseline_arrow_forward_ios_24"
+            app:iconGravity="textStart"
+            app:iconSize="10sp"
+            android:backgroundTint="@color/md_theme_skeleton"
+            android:enabled="false"
+            app:strokeColor="@color/md_theme_skeleton"
+            app:iconTint="@color/md_theme_skeleton"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:background="@color/md_theme_skeleton"
+        android:textColor="@color/md_theme_skeleton"
+        android:text="1 Iced Aren Latte, 1 Iced sea salt,1 Iced Aren Latte, 1 Iced sea salt, 1 Iced Aren Latte, 1 Iced sea salt"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="80dp"/>
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/md_theme_secondaryLighter" />
+    <TextView
+        android:id="@+id/textTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 Item - Rp 43.000"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:background="@color/md_theme_skeleton"
+        android:textColor="@color/md_theme_skeleton"
+        />
+</LinearLayout>

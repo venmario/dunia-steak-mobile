@@ -1,14 +1,17 @@
 package com.example.restoapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restoapp.databinding.HistoryCardBinding
 import com.example.restoapp.databinding.ProductHistoryCardBinding
+import com.example.restoapp.global.GlobalData.orderDetail
 import com.example.restoapp.model.DetailProduct
 import com.example.restoapp.model.OrderDetail
 import com.example.restoapp.util.convertToRupiah
 import com.example.restoapp.util.loadImage
+import com.google.common.base.Strings
 
 class HistoryOrderListAdapter(val historyDetailList: ArrayList<DetailProduct>):RecyclerView.Adapter<HistoryOrderListAdapter.HistoryOrderViewHolder>() {
     class HistoryOrderViewHolder(var binding: ProductHistoryCardBinding): RecyclerView.ViewHolder(binding.root)
@@ -27,6 +30,10 @@ class HistoryOrderListAdapter(val historyDetailList: ArrayList<DetailProduct>):R
             textProductDesc.text= detailProduct.description
             textPrice.text = convertToRupiah(detailProduct.price!!)
             textQty.text = detailProduct.quantity.toString()
+            if (!Strings.isNullOrEmpty(detailProduct.note)){
+                textNote.visibility = View.VISIBLE
+                textNote.text = "Note :\n${detailProduct.note}"
+            }
             imageView.loadImage(detailProduct.image, imageProgress)
         }
     }

@@ -44,6 +44,10 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             }
+            txtSignIn.setOnClickListener {
+                startActivity(Intent(applicationContext,LoginActivity::class.java))
+                finish()
+            }
         }
     }
 
