@@ -18,7 +18,12 @@ data class User(
 data class Category(
     var id:Int,
     var name:String,
-    var product:ArrayList<Product>
+    var product:ArrayList<Product>,
+    var isSelected: Boolean = false
+)
+data class CategoryFilter(
+    var name:String,
+    var isSelected:Boolean
 )
 
 data class Product(
