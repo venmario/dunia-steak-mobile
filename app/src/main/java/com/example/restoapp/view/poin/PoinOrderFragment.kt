@@ -14,8 +14,6 @@ import com.example.restoapp.adapter.CategoryListPoinAdapter
 import com.example.restoapp.databinding.FragmentPoinOrderBinding
 import com.example.restoapp.viewmodel.ProductViewModel
 import com.example.restoapp.viewmodel.StoreViewModel
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 class PoinOrderFragment : Fragment() {
@@ -61,16 +59,12 @@ class PoinOrderFragment : Fragment() {
         vmStore.store.observe(viewLifecycleOwner){
             if (it.isSuccess){
                 val store = it.data!!
-                val open = store.open
-                val close = store.close
+                val isOpen = store.isOpen
 
-                val currentTime = LocalTime.now()
-                val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                val parsedTimeOpen = LocalTime.parse(open, formatter)
-                val parsedTimeClose = LocalTime.parse(close, formatter)
-
-                if (currentTime.isBefore(parsedTimeOpen) || currentTime.isAfter(parsedTimeClose)){
+                if (!isOpen){
                     binding.textStoreClosed.visibility = View.VISIBLE
+                } else {
+                    binding.textStoreClosed.visibility = View.GONE
                 }
             }
         }

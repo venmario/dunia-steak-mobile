@@ -114,7 +114,8 @@ data class LogoutResponse(
 data class RegisterResponse(
     var success:Boolean,
     var successMessage:String?,
-    var errorMessage:String?
+    var errorMessage:String?,
+    var code:Int
 )
 
 data class RefreshTokenResponse(
@@ -191,5 +192,7 @@ data class DetailOrderPoint(
 data class Store(
     var id:Int,
     var open:String,
-    var close:String
+    var close:String,
+    @SerializedName("is_open")
+    var isOpen:Boolean
 )

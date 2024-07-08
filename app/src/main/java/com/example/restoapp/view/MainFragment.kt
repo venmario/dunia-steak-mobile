@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -20,14 +19,11 @@ import com.auth0.android.jwt.JWT
 import com.example.restoapp.adapter.CategoryFilterAdapter
 import com.example.restoapp.adapter.CategoryListAdapter
 import com.example.restoapp.databinding.FragmentMainBinding
-import com.example.restoapp.model.CategoryFilter
 import com.example.restoapp.util.getAccToken
 import com.example.restoapp.util.setNewAccToken
 import com.example.restoapp.view.auth.LoginActivity
 import com.example.restoapp.viewmodel.ProductViewModel
 import com.example.restoapp.viewmodel.StoreViewModel
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -127,20 +123,9 @@ class MainFragment : Fragment(), CategoryFilterAdapter.IFilterListener {
         vmStore.store.observe(viewLifecycleOwner){
             if (it.isSuccess){
                 val store = it.data!!
-                val open = store.open
-                val close = store.close
+                val isOpen = store.isOpen
 
-                Log.d("open",open)
-                Log.d("close",close)
-
-                val currentTime = LocalTime.now()
-                Log.d("currenttime",currentTime.toString())
-
-                val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                val parsedTimeOpen = LocalTime.parse(open, formatter)
-                val parsedTimeClose = LocalTime.parse(close, formatter)
-
-                if (currentTime.isBefore(parsedTimeOpen) || currentTime.isAfter(parsedTimeClose)){
+                if (!isOpen){
                     binding.textStoreClosed.visibility = View.VISIBLE
                 } else {
                     binding.textStoreClosed.visibility = View.GONE

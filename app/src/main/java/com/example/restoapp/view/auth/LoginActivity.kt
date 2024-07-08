@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.restoapp.databinding.ActivityLoginBinding
 import com.example.restoapp.util.getFcmTokens
-import com.example.restoapp.util.showToast
 import com.example.restoapp.view.MainActivity
 import com.example.restoapp.viewmodel.AuthViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
     companion object{
@@ -52,7 +52,8 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(applicationContext, MainActivity::class.java))
                         finish()
                     }else{
-                        showToast(it.errorMessage!!,applicationContext)
+                        Snackbar.make(binding.rootLayout, it.errorMessage!!, Snackbar.LENGTH_SHORT)
+                            .show()
                     }
                 })
             }
