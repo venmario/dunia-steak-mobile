@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.auth0.android.jwt.JWT
 import com.example.restoapp.databinding.FragmentProfileBinding
@@ -22,7 +22,7 @@ import java.util.Date
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var viewmodel: AuthViewModel
+    private val viewmodel: AuthViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +34,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewmodel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
         loggedOut()
         val (accToken) = getAccToken(requireActivity())
@@ -50,6 +49,7 @@ class ProfileFragment : Fragment() {
                         setNewAccToken(requireActivity(),"","")
                     }else{
                         Log.d("exp token", "not expired yet")
+                        binding.textSignIn.visibility = View.GONE
                         viewmodel.getUser(requireActivity())
                         observeViewModel()
                     }
@@ -57,22 +57,38 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.textLogout.setOnClickListener {
-            val (_,currentFcmToken) = getFcmTokens(requireActivity())
-            viewmodel.logout(requireActivity(),currentFcmToken)
+        with(binding){
+            textLogout.setOnClickListener {
+                val (_,currentFcmToken) = getFcmTokens(requireActivity())
+                viewmodel.logout(requireActivity(),currentFcmToken)
+            }
+            textSignIn.setOnClickListener {
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+            }
+            textHelpCenter.setOnClickListener {
+                val action = ProfileFragmentDirections.actionHelpCenter()
+                Navigation.findNavController(requireView()).navigate(action)
+            }
+            textTermsService.setOnClickListener {
+                val action = ProfileFragmentDirections.actionTermService()
+                Navigation.findNavController(requireView()).navigate(action)
+            }
+            textLanguage.setOnClickListener {txt->
+                val action = ProfileFragmentDirections.actionLanguage()
+                Navigation.findNavController(txt).navigate(action)
+            }
         }
-        binding.textSignIn.setOnClickListener {
-            startActivity(Intent(requireContext(), LoginActivity::class.java))
-        }
+
     }
 
-    fun observeViewModel(){
+    private fun observeViewModel(){
         viewmodel.userLD.observe(viewLifecycleOwner){
             //set profile
             if (it != null){
-                binding.textName.text = "Hello ${it.firstname?.capitalize() }"
-                binding.textPoint.text = "${it.poin} pts"
-                setUserPoint(requireActivity(), it.poin)
+                val user = it
+                binding.textName.text = "Hello ${user.firstname?.capitalize() }"
+                binding.textPoint.text = "${user.poin} pts"
+                setUserPoint(requireActivity(), user.poin)
                 loggedIn()
             }
         }
@@ -87,19 +103,35 @@ class ProfileFragment : Fragment() {
     }
 
     fun loggedOut(){
-        binding.textEditProfile.visibility = View.GONE
-        binding.textLogout.visibility = View.GONE
-        binding.textSignIn.visibility = View.VISIBLE
-        binding.textPoint.text = "0 pts"
-        binding.textName.text = "Hello, There!"
+        with(binding){
+            textEditProfile.visibility = View.GONE
+            textLogout.visibility = View.GONE
+            textSignIn.visibility = View.VISIBLE
+            textPoint.text = "0 pts"
+            textName.text = "Hello, There!"
+            pointCard.isClickable = false
+            textSetting.visibility = View.GONE
+        }
     }
     fun loggedIn(){
-        binding.textEditProfile.visibility = View.VISIBLE
-        binding.textLogout.visibility = View.VISIBLE
-        binding.textSignIn.visibility = View.GONE
-        binding.pointCard.setOnClickListener {
-            val action = ProfileFragmentDirections.actionPointProductList()
-            Navigation.findNavController(requireView()).navigate(action)
+        with(binding){
+            textEditProfile.visibility = View.VISIBLE
+            textSetting.visibility = View.VISIBLE
+            textLogout.visibility = View.VISIBLE
+            textSignIn.visibility = View.GONE
+            pointCard.isClickable = true
+            pointCard.setOnClickListener {
+                val action = ProfileFragmentDirections.actionPointProductList()
+                Navigation.findNavController(requireView()).navigate(action)
+            }
+            textEditProfile.setOnClickListener {
+                val action = ProfileFragmentDirections.actionEditProfile()
+                Navigation.findNavController(requireView()).navigate(action)
+            }
+            textSetting.setOnClickListener {
+                val action = ProfileFragmentDirections.actionToSetting()
+                Navigation.findNavController(requireView()).navigate(action)
+            }
         }
     }
 

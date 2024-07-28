@@ -17,7 +17,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.restoapp.R
 import com.example.restoapp.databinding.ActivityMainBinding
 import com.example.restoapp.util.setFcmTokens
-import com.example.restoapp.viewmodel.StoreViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -74,7 +73,13 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == R.id.productDetailFragment
                 || destination.id == R.id.listNotificationFragment
                 || destination.id == R.id.poinOrderFragment
-                || destination.id == R.id.detailPoinOrderFragment) {
+                || destination.id == R.id.detailPoinOrderFragment
+                || destination.id == R.id.editProfileFragment
+                || destination.id == R.id.helpCenterFragment
+                || destination.id == R.id.termsServiceFragment
+                || destination.id == R.id.settingFragment
+                || destination.id == R.id.changePasswordFragment
+                || destination.id == R.id.confirmOrderPointFragment) {
                 binding.bottomNav.visibility = View.GONE
             }else{
                 binding.bottomNav.visibility = View.VISIBLE
@@ -106,5 +111,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }

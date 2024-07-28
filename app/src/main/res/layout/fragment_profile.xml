@@ -111,10 +111,12 @@
                 android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
                 android:drawableTint="@color/md_theme_primary"
                 android:textSize="15sp"
+                android:clickable="true"
                 android:drawablePadding="8dp"
                 android:paddingVertical="8dp"
                 android:fontFamily="@font/futura_bold"/>
             <TextView
+                android:id="@+id/textHelpCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_info_outline_24"
@@ -122,11 +124,14 @@
                 android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
                 android:drawableTint="@color/md_theme_primary"
                 android:textSize="15sp"
+                android:clickable="true"
                 android:textColor="@color/md_theme_secondary"
                 android:drawablePadding="8dp"
                 android:paddingVertical="8dp"
                 android:fontFamily="@font/futura_bold"/>
             <TextView
+                android:id="@+id/textPrivacyPolicy"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_theme_secondary"
@@ -137,8 +142,11 @@
                 android:textSize="15sp"
                 android:drawablePadding="8dp"
                 android:paddingVertical="8dp"
+                android:visibility="gone"
                 android:fontFamily="@font/futura_bold"/>
             <TextView
+                android:id="@+id/textLanguage"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_language_24"
@@ -151,6 +159,8 @@
                 android:paddingVertical="8dp"
                 android:fontFamily="@font/futura_bold"/>
             <TextView
+                android:id="@+id/textTermsService"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_theme_secondary"
@@ -163,6 +173,8 @@
                 android:paddingVertical="8dp"
                 android:fontFamily="@font/futura_bold"/>
             <TextView
+                android:id="@+id/textSetting"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_settings_24"

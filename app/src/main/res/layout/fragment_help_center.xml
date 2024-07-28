@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".view.HelpCenterFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header -->
+            <TextView
+                android:id="@+id/help_center_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Help Center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingBottom="16dp" />
+            <TextView
+                android:id="@+id/faq_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frequently Asked Questions"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/faq_question1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- How do I reset my password?"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onFaqClick"/>
+
+                <TextView
+                    android:id="@+id/faq_answer1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To reset your password, go to the settings page and select 'Reset Password'."
+                    android:visibility="gone"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+                <TextView
+                    android:id="@+id/faq_question2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- How do I schedule an order?"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onFaqClick"/>
+
+                <TextView
+                    android:id="@+id/faq_answer2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  To schedule an order, select 'Schedule Order' button in cart page."
+                    android:visibility="gone"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/contact_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Us"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:id="@+id/contact_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: dunia.steak@gmail.com"
+                android:padding="8dp"
+                android:autoLink="email" />
+
+            <TextView
+                android:id="@+id/contact_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Whatsapp: +62 8133 2456 7890"
+                android:padding="8dp"/>
+
+            <TextView
+                android:id="@+id/contact_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instagram: Dunia.Steak"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+</FrameLayout>

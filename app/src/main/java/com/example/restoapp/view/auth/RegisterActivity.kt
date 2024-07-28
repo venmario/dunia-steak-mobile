@@ -204,8 +204,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun disableButton() {
         with(binding) {
             buttonRegister.backgroundTintList =
-                resources.getColorStateList(com.example.restoapp.R.color.md_theme_primary_disable)
-            buttonRegister.setTextColor(resources.getColorStateList(com.example.restoapp.R.color.md_theme_secondary_disable))
+                resources.getColorStateList(R.color.md_theme_primary_disable)
+            buttonRegister.setTextColor(resources.getColorStateList(R.color.md_theme_secondary_disable))
             buttonRegister.isEnabled = false
         }
     }
@@ -214,8 +214,8 @@ class RegisterActivity : AppCompatActivity() {
         with(binding) {
             if (!isLastnameError && !isFirstnameError && !isPhoneNumberError && !isEmailError && !isUsernameError && !isPasswordError){
                 buttonRegister.backgroundTintList =
-                    resources.getColorStateList(com.example.restoapp.R.color.md_theme_primary)
-                buttonRegister.setTextColor(resources.getColorStateList(com.example.restoapp.R.color.md_theme_secondary))
+                    resources.getColorStateList(R.color.md_theme_primary)
+                buttonRegister.setTextColor(resources.getColorStateList(R.color.md_theme_secondary))
                 buttonRegister.isEnabled = true
             }
         }

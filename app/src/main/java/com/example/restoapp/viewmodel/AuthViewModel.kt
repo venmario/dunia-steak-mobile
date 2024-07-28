@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request.Method.POST
 import com.android.volley.RequestQueue
@@ -15,7 +16,10 @@ import com.example.restoapp.model.LoginResponse
 import com.example.restoapp.model.LogoutResponse
 import com.example.restoapp.model.RefreshTokenResponse
 import com.example.restoapp.model.RegisterResponse
+import com.example.restoapp.model.UpdateUserPasswordResponse
+import com.example.restoapp.model.UpdateUserResponse
 import com.example.restoapp.model.User
+import com.example.restoapp.model.UserResponse
 import com.example.restoapp.util.getAuthorizationHeaders
 import com.google.gson.Gson
 import com.midtrans.sdk.corekit.internal.util.SingleLiveEvent
@@ -25,8 +29,14 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     val loginResponse = SingleLiveEvent<LoginResponse>()
     val registerResponse = SingleLiveEvent<RegisterResponse>()
     val refreshTokenResponse = MutableLiveData<RefreshTokenResponse>()
-    val logoutResponse = MutableLiveData<LogoutResponse>()
-    val userLD = MutableLiveData<User>()
+    val logoutResponse = SingleLiveEvent<LogoutResponse>()
+
+    private val mutableUser = MutableLiveData<User>()
+    val userLD: LiveData<User> get() = mutableUser
+
+    val updateUserLD = SingleLiveEvent<UpdateUserResponse>()
+
+    val updatePasswordLD = SingleLiveEvent<UpdateUserPasswordResponse>()
 
     val authUrl = GlobalData.apiUrl
     val TAG = "volleyTag"
@@ -134,10 +144,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 val result = JSONObject(it)
                 Log.d("get user", it)
                 Log.d("get user", "result : $result")
-                val user = Gson().fromJson(result.getString("user"), User::class.java)
-                userLD.value = user
+                val success = result.getBoolean("success")
+                val userResponse = Gson().fromJson(it, UserResponse::class.java)
+                if (success){
+                    mutableUser.value = userResponse.user!!
+                }
                 Log.d("Profie Page", "user : $it")
-                Log.d("Profie PAge", user.toString())
+                Log.d("Profie PAge", userResponse.toString())
             }, {
                 Log.d("Logout", it.message.toString())
             }
@@ -148,6 +161,95 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
         stringRequest.tag = TAG
         queue?.add(stringRequest)
+    }
+
+    fun updateUser(activity: Activity, username:String, firstName:String?, lastName:String?,email:String?, phoneNumber: String?) {
+        val url = "$authUrl/updateUser"
+        queue = Volley.newRequestQueue(getApplication())
+        val stringRequest = object : StringRequest(
+            POST, url, {
+                val result = JSONObject(it)
+                Log.d("update user", it)
+                Log.d("update user", "result : $result")
+                val success = result.getBoolean("success")
+                val code = result.getInt("code")
+                if (success){
+                    val successMessage = result.getString("successMessage")
+                    val user = Gson().fromJson(result.getString("user"), User::class.java)
+                    mutableUser.value = user
+                    updateUserLD.value = UpdateUserResponse(true,successMessage,null,user, code)
+                }else{
+                    val errorMessage = result.getString("errorMessage")
+                    updateUserLD.value = UpdateUserResponse(false,null,errorMessage,null, code)
+                }
+            }, {
+                updateUserLD.value = UpdateUserResponse(false,null,it.message,null, 500)
+                Log.d("volley error update user", it.message.toString())
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return getAuthorizationHeaders(activity)
+            }
+
+            override fun getParams(): MutableMap<String, String> {
+                val body = HashMap<String, String>()
+                body["username"] = username
+                if (firstName != null){
+                    body["firstname"] = firstName
+                }
+                if (lastName != null){
+                    body["lastname"] = lastName
+                }
+                if (email != null){
+                    body["email"] = email
+                }
+                if (phoneNumber != null){
+                    body["phonenumber"] = phoneNumber
+                }
+                return body
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
+
+    fun updateUserPassword(activity: Activity, username:String, currentPassword: String, newPassword:String){
+        val url = "$authUrl/updatePassword"
+        queue = Volley.newRequestQueue(getApplication())
+        val stringRequest = object : StringRequest(
+            POST, url, {
+                val result = JSONObject(it)
+                Log.d("update user password", it)
+                Log.d("update user password", "result : $result")
+                val success = result.getBoolean("success")
+                val code = result.getInt("code")
+                if (success){
+                    val successMessage = result.getString("successMessage")
+                    updatePasswordLD.value = UpdateUserPasswordResponse(true,successMessage,null, code)
+                }else{
+                    val errorMessage = result.getString("errorMessage")
+                    updatePasswordLD.value = UpdateUserPasswordResponse(false,null,errorMessage, code)
+                }
+            }, {
+                updatePasswordLD.value = UpdateUserPasswordResponse(false,null,it.message, 500)
+                Log.d("volley error update password", it.message.toString())
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return getAuthorizationHeaders(activity)
+            }
+
+            override fun getParams(): MutableMap<String, String> {
+                val body = HashMap<String, String>()
+                body["username"] = username
+                body["currentPassword"] = currentPassword
+                body["newPassword"] = newPassword
+                return body
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+
     }
 
     fun refreshToken(activity: Activity) {

@@ -107,6 +107,7 @@ fun showToast(message: String,applicationContext:Context) {
 fun getAuthorizationHeaders(activity: Activity):HashMap<String,String> {
     val (token) = getAccToken(activity)
     val headers = HashMap<String,String>()
+    Log.d("bearer", token.toString())
     headers["Authorization"] = "Bearer $token"
     return  headers
 }

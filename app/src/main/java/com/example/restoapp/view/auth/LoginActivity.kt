@@ -49,8 +49,9 @@ class LoginActivity : AppCompatActivity() {
                         editor.putString(ACCESS_TOKEN,it.accToken)
                         editor.putString(USERNAME,it.username)
                         editor.apply()
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                        finish()
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     }else{
                         Snackbar.make(binding.rootLayout, it.errorMessage!!, Snackbar.LENGTH_SHORT)
                             .show()

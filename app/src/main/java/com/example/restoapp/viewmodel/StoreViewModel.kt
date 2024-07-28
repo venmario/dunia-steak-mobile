@@ -1,11 +1,8 @@
 package com.example.restoapp.viewmodel
 
-import android.app.Activity
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -13,18 +10,17 @@ import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.ServiceResult
 import com.example.restoapp.model.Store
 import com.google.gson.Gson
+import com.midtrans.sdk.corekit.internal.util.SingleLiveEvent
 import org.json.JSONObject
 
 class StoreViewModel(application: Application): AndroidViewModel(application) {
-
-    private val mutableStoreTime = MutableLiveData<ServiceResult<Store>>()
-    val store: LiveData<ServiceResult<Store>> get() = mutableStoreTime
+    val store = SingleLiveEvent<ServiceResult<Store>>()
 
     val storeUrl = "${GlobalData.apiUrl}/store"
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
 
-    fun getOpenClose(activity: Activity){
+    fun getOpenClose(){
         val url = "$storeUrl/getOpenCloseHour"
         queue = Volley.newRequestQueue(getApplication())
         val stringRequest = object: StringRequest(
@@ -34,14 +30,14 @@ class StoreViewModel(application: Application): AndroidViewModel(application) {
                 val isSuccess = result.getBoolean("isSuccess")
                 if(isSuccess){
                     val data = result.getString("data")
-                    val store = Gson().fromJson(data, Store::class.java)
-                    mutableStoreTime.value = ServiceResult(isSuccess,null, store )
+                    val resultStore = Gson().fromJson(data, Store::class.java)
+                    store.value = ServiceResult(isSuccess,null, resultStore )
                 }else{
                     val errorMessage = result.getString("errorMessage")
-                    mutableStoreTime.value = ServiceResult(isSuccess,errorMessage, null)
+                    store.value = ServiceResult(isSuccess,errorMessage, null)
                 }
             },{
-                mutableStoreTime.value = ServiceResult(false,it.message, null)
+                store.value = ServiceResult(false,it.message, null)
             }
         ){
 

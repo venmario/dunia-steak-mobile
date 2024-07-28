@@ -33,7 +33,7 @@ class PoinOrderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        vmStore.getOpenClose(requireActivity())
+        vmStore.getOpenClose()
         viewModel.getAll()
 
         with(binding){

@@ -26,13 +26,17 @@ import com.example.restoapp.util.getAccToken
 import com.example.restoapp.util.setNewAccToken
 import com.example.restoapp.view.auth.LoginActivity
 import com.example.restoapp.viewmodel.OrderViewModel
+import com.example.restoapp.viewmodel.StoreViewModel
 import com.example.restoapp.viewmodel.TransactionViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.midtrans.sdk.uikit.api.model.CustomColorTheme
 import com.midtrans.sdk.uikit.api.model.TransactionResult
 import com.midtrans.sdk.uikit.external.UiKitApi
 import com.midtrans.sdk.uikit.internal.util.UiKitConstants
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 class CheckoutFragment : Fragment() {
@@ -40,6 +44,7 @@ class CheckoutFragment : Fragment() {
     private lateinit var binding: FragmentCheckoutBinding
     private lateinit var viewModel: OrderViewModel
     private lateinit var vmTrans: TransactionViewModel
+    private lateinit var vmStore: StoreViewModel
     private lateinit var orderDetailListAdapter:CartListAdapter
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -83,6 +88,7 @@ class CheckoutFragment : Fragment() {
         buildUiKit()
         viewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
         vmTrans = ViewModelProvider(this).get(TransactionViewModel::class.java)
+        vmStore = ViewModelProvider(this).get(StoreViewModel::class.java)
         orderDetailListAdapter = CartListAdapter(arrayListOf(), viewModel)
 
         setGrandtotal(GlobalData.orderDetail)
@@ -108,7 +114,9 @@ class CheckoutFragment : Fragment() {
         timePicker.addOnPositiveButtonClickListener {
             isScheduledOrder = true
             scheduledOrder()
-            time = "${timePicker.hour}:${timePicker.minute}"
+            val hour = timePicker.hour
+            val minute = timePicker.minute
+            time = String.format("%02d:%02d", hour, minute)
             binding.textOrderAt.text = time
         }
         timePicker.addOnDismissListener {
@@ -134,20 +142,55 @@ class CheckoutFragment : Fragment() {
                         }else{
                             Log.d("exp token", "not expired yet")
                             orderDetails = GlobalData.orderDetail
-                            Log.d("isScheduledOrder",isScheduledOrder.toString())
 
                             binding.buttonContinue.text = "Loading..."
                             disableButton()
 
-                            vmTrans.createTransaction(orderDetails,isScheduledOrder,time,requireActivity())
+                            vmStore.getOpenClose()
+                            vmStore.store.observe(viewLifecycleOwner){store->
+                                if (store.isSuccess){
+                                    val open = store.data!!.open
+                                    val close = store.data!!.close
 
-                            vmTrans.snapToken.observe(viewLifecycleOwner) { token ->
-                                Log.d("executed","snaptoken : $token")
-                                UiKitApi.getDefaultInstance().startPaymentUiFlow(
-                                    requireActivity(),
-                                    launcher,
-                                    token
-                                )
+                                    val localTimeOpen = LocalTime.parse(open, DateTimeFormatter.ofPattern("HH:mm:ss"))
+                                    val localTimeClose = LocalTime.parse(close, DateTimeFormatter.ofPattern("HH:mm:ss"))
+
+                                    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+
+                                    val formattedOpen = localTimeOpen.format(formatter)
+                                    val formattedClose = localTimeClose.format(formatter)
+                                    if (store.data!!.isOpen){
+                                        if (isScheduledOrder){
+                                            val localTimeSchedule = LocalTime.parse("$time:00", DateTimeFormatter.ofPattern("HH:mm:ss"))
+                                            if (!localTimeSchedule.isAfter(localTimeOpen)){
+                                                Log.d("localTime","after")
+                                            }
+                                            if (localTimeSchedule.isBefore(localTimeClose)){
+                                                Log.d("localTime","before")
+                                            }
+
+                                            if (!localTimeSchedule.isAfter(localTimeOpen) || localTimeSchedule.isAfter(localTimeClose)) {
+                                                MaterialAlertDialogBuilder(requireContext())
+                                                    .setTitle("Warning!")
+                                                    .setMessage("Cannot book at closed hour. Operating hours : ${formattedOpen} - ${formattedClose}")
+                                                    .show()
+                                                enableButton()
+                                                binding.buttonContinue.text = "CHECK OUT"
+                                                return@observe
+                                            }
+                                        }
+                                        Log.d("localtime","test")
+                                        vmTrans.createTransaction(orderDetails,isScheduledOrder,time,requireActivity())
+                                    }else{
+                                        //store closed
+                                        MaterialAlertDialogBuilder(requireContext())
+                                            .setTitle("Warning!")
+                                            .setMessage("Store Closed. Operating hours : ${formattedOpen} - ${formattedClose}")
+                                            .show()
+                                        enableButton()
+                                        binding.buttonContinue.text = "CHECK OUT"
+                                    }
+                                }
                             }
                         }
                     }
@@ -197,6 +240,16 @@ class CheckoutFragment : Fragment() {
                 binding.textNoOrder.visibility = View.GONE
             }
         }
+        vmTrans.snapToken.observe(viewLifecycleOwner) { token ->
+            Log.d("executed","snaptoken : $token")
+            UiKitApi.getDefaultInstance().startPaymentUiFlow(
+                requireActivity(),
+                launcher,
+                token
+            )
+        }
+
+
     }
 
     private fun setGrandtotal(orderDetails: ArrayList<OrderDetail>){

@@ -70,29 +70,6 @@ data class OrderDetail(
     var quantity:Int,
     var note:String?,
 )
-
-data class Transaction(
-    var transactionId:String?,
-    var grossAmount:Double,
-    var order:Order,
-    var transactionTime:Date?,
-    var settlementTime:Date?,
-    var transactionStatus:String?,
-    var statusMessage:String?,
-    var paymentType:String?,
-)
-
-data class TranscationRequest(
-    var transactionId:String?,
-    var grossAmount:Double,
-    var orderId:String,
-    var transactionTime:Date?,
-    var settlementTime:Date?,
-    var transactionStatus:String?,
-    var statusMessage:String?,
-    var paymentType:String?,
-)
-
 data class LoginResponse(
     var accToken:String?,
     var username:String?,
@@ -112,6 +89,28 @@ data class LogoutResponse(
     var errorMessage: String?
 )
 data class RegisterResponse(
+    var success:Boolean,
+    var successMessage:String?,
+    var errorMessage:String?,
+    var code:Int
+)
+
+data class UserResponse(
+    var success:Boolean,
+    var successMessage:String?,
+    var errorMessage:String?,
+    var user: User?,
+    var code:Int
+)
+
+data class UpdateUserResponse(
+    var success:Boolean,
+    var successMessage:String?,
+    var errorMessage:String?,
+    var user: User?,
+    var code:Int
+)
+data class UpdateUserPasswordResponse(
     var success:Boolean,
     var successMessage:String?,
     var errorMessage:String?,

@@ -48,7 +48,7 @@ class MainFragment : Fragment(), CategoryFilterAdapter.IFilterListener {
         Log.d("main fragment", "on view created")
         viewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        vmStore.getOpenClose(requireActivity())
+        vmStore.getOpenClose()
         viewModel.getAll()
 
         binding.recViewCategoryFilter.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -96,7 +96,7 @@ class MainFragment : Fragment(), CategoryFilterAdapter.IFilterListener {
         }
         binding.refreshLayout.setOnRefreshListener {
             viewModel.getAll()
-            vmStore.getOpenClose(requireActivity())
+            vmStore.getOpenClose()
             binding.skeletonLayout.visibility = View.VISIBLE
             binding.shimmerLayout.startShimmer()
             binding.recView.visibility = View.GONE
@@ -110,11 +110,6 @@ class MainFragment : Fragment(), CategoryFilterAdapter.IFilterListener {
     private fun observeViewModel() {
         viewModel.categoriesLD.observe(viewLifecycleOwner, Observer {
             categoryListAdapter.updatecategoryList(it)
-//            val categoryFilters = arrayListOf<CategoryFilter>()
-//            for(cat in it){
-//                val catFilter = CategoryFilter(cat.name,false)
-//                categoryFilters.add(catFilter)
-//            }
             categoryFilterAdapter.updateCategoryFilterList(it)
             binding.shimmerLayout.stopShimmer()
             binding.skeletonLayout.visibility = View.GONE
@@ -148,29 +143,5 @@ class MainFragment : Fragment(), CategoryFilterAdapter.IFilterListener {
     override fun selectCategory(position: Int) {
         Log.d("select Category", position.toString())
         binding.recView.smoothScrollToPosition(position)
-//        val scrollToPosition = position
-//
-//        val layoutManager = binding.recView.layoutManager as LinearLayoutManager
-//        val firstPosition = layoutManager.findFirstVisibleItemPosition()
-//        Log.d("firstPosition", firstPosition.toString())
-//        val lastPosition = layoutManager.findLastVisibleItemPosition()
-//        Log.d("lastPosition", lastPosition.toString())
-//        val visibleItems =  lastPosition - firstPosition + 1
-//        Log.d("visibleItems", visibleItems.toString())
-//
-//        if (firstPosition < scrollToPosition) {
-//            Log.d("first", (scrollToPosition + (visibleItems / 2)).toString())
-//            binding.recView.smoothScrollToPosition(scrollToPosition + (visibleItems / 2))
-//        } else {
-//            Log.d("else", (scrollToPosition + (visibleItems / 2)).toString())
-//            binding.recView.smoothScrollToPosition(scrollToPosition - (visibleItems / 2))
-//        }
-//        if (position in 0 until categoryListAdapter.itemCount) {
-//            val view = binding.recView.getChildAt(position)
-//            if (view != null) {
-//                val target = binding.recView.top + view.top
-//                binding.nestedScrollProduct.scrollY = target
-//            }
-//        }
     }
 }

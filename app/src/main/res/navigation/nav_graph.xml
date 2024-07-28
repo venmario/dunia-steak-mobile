@@ -30,6 +30,24 @@
         <action
             android:id="@+id/actionPointProductList"
             app:destination="@id/poinOrderFragment" />
+        <action
+            android:id="@+id/actionEditProfile"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/actionHelpCenter"
+            app:destination="@id/helpCenterFragment" />
+        <action
+            android:id="@+id/action_itemProfile_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+        <action
+            android:id="@+id/actionTermService"
+            app:destination="@id/termsServiceFragment" />
+        <action
+            android:id="@+id/actionLanguage"
+            app:destination="@id/languageOptionFragment" />
+        <action
+            android:id="@+id/actionToSetting"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -121,6 +139,62 @@
             app:destination="@id/detailPoinOrderFragment" />
         <action
             android:id="@+id/actionConfirmOrderPointToHistory"
-            app:destination="@id/historyDetailFragment" />
+            app:destination="@id/historyDetailFragment"
+            app:popUpTo="@id/poinOrderFragment"
+            app:popUpToInclusive="true" />
     </dialog>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.restoapp.view.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/actionBackFromProfile"
+            app:destination="@id/itemProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpCenterFragment"
+        android:name="com.example.restoapp.view.HelpCenterFragment"
+        android:label="fragment_help_center"
+        tools:layout="@layout/fragment_help_center" />
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.example.restoapp.view.PrivacyPolicyFragment"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+    <fragment
+        android:id="@+id/termsServiceFragment"
+        android:name="com.example.restoapp.view.TermsServiceFragment"
+        android:label="fragment_terms_service"
+        tools:layout="@layout/fragment_terms_service" />
+    <dialog
+        android:id="@+id/languageOptionFragment"
+        android:name="com.example.restoapp.view.LanguageOptionFragment"
+        android:label="fragment_language_option"
+        tools:layout="@layout/fragment_language_option" >
+        <action
+            android:id="@+id/actionBackFromLanguage"
+            app:destination="@id/itemProfile" />
+    </dialog>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.restoapp.view.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/actionBackFromSetting"
+            app:destination="@id/itemProfile" />
+        <action
+            android:id="@+id/actionChangePassword"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.restoapp.view.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" >
+        <action
+            android:id="@+id/actionBackFromChangePassword"
+            app:destination="@id/settingFragment" />
+    </fragment>
 </navigation>
