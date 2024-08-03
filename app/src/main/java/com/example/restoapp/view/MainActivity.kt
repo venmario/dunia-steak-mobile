@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == R.id.termsServiceFragment
                 || destination.id == R.id.settingFragment
                 || destination.id == R.id.changePasswordFragment
-                || destination.id == R.id.confirmOrderPointFragment) {
+                || destination.id == R.id.confirmOrderPointFragment
+                || destination.id == R.id.cancelOrderOptionFragment) {
                 binding.bottomNav.visibility = View.GONE
             }else{
                 binding.bottomNav.visibility = View.VISIBLE

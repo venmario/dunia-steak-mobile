@@ -92,6 +92,9 @@
         <argument
             android:name="transactionId"
             app:argType="string" />
+        <action
+            android:id="@+id/actionCanclerOrder"
+            app:destination="@id/cancelOrderOptionFragment" />
     </fragment>
     <fragment
         android:id="@+id/listNotificationFragment"
@@ -197,4 +200,15 @@
             android:id="@+id/actionBackFromChangePassword"
             app:destination="@id/settingFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/cancelOrderOptionFragment"
+        android:name="com.example.restoapp.view.history.CancelOrderOptionFragment"
+        android:label="fragment_cancel_order_option"
+        tools:layout="@layout/fragment_cancel_order_option" >
+        <action
+            android:id="@+id/actionBackFromCancelOption"
+            app:destination="@id/historyDetailFragment"
+            app:popUpTo="@id/historyDetailFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
 </navigation>

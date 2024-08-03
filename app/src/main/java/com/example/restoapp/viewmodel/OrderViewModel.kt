@@ -14,6 +14,9 @@ class OrderViewModel(application: Application): AndroidViewModel(application) {
 
     private val mutableSelectedProductPoint = MutableLiveData<DetailOrderPoint>()
     val selectedProductPoint: LiveData<DetailOrderPoint> get() = mutableSelectedProductPoint
+
+    private val mutableCancelOrder = MutableLiveData<String>()
+    val cancelOrderLD: LiveData<String> get() = mutableCancelOrder
     fun setGrandTotal(grandTotal: Int){
         grandTotalLD.value = grandTotal
     }
@@ -24,5 +27,9 @@ class OrderViewModel(application: Application): AndroidViewModel(application) {
 
     fun selectProductPoint(product: Product, total: Int, note:String?){
         mutableSelectedProductPoint.value = DetailOrderPoint(product, total, note)
+    }
+
+    fun selectCancelOrder(orderId:String){
+        mutableCancelOrder.value = orderId
     }
 }

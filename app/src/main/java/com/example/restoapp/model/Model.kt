@@ -171,7 +171,20 @@ data class HistoryOrderDetail(
     val date:String,
     @SerializedName("updated_at_time")
     val time:String,
+    @SerializedName("cancel_reason")
+    val cancelReason:String?,
+    @SerializedName("refund_reason")
+    val refundReason:String?,
     val details: ArrayList<DetailProduct>
+)
+
+data class TransactionResult(
+    @SerializedName("status_code")
+    val statusCode:Int,
+    @SerializedName("status_message")
+    val statusMessage:String,
+    @SerializedName("transaction_id")
+    val transactionId:String?,
 )
 
 data class Notification(

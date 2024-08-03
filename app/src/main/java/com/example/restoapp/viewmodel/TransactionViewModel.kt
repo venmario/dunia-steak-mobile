@@ -17,6 +17,7 @@ import com.example.restoapp.model.HistoryOrder
 import com.example.restoapp.model.HistoryOrderDetail
 import com.example.restoapp.model.OrderDetail
 import com.example.restoapp.model.ServiceResult
+import com.example.restoapp.model.TransactionResult
 import com.example.restoapp.util.getAuthorizationHeaders
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -33,6 +34,8 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
 
     private val mutableRedeemPointResult = MutableLiveData<ServiceResult<String>>()
     val redeemPointResult: LiveData<ServiceResult<String>> get() = mutableRedeemPointResult
+
+    val cancelOrderLD = SingleLiveEvent<ServiceResult<TransactionResult>>()
 
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
@@ -156,6 +159,41 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
         ){
             override fun getHeaders(): MutableMap<String, String> {
                 return getAuthorizationHeaders(activity)
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
+    fun cancelTransaction(activity: Activity, orderId:String, reason:String){
+        queue = Volley.newRequestQueue(getApplication())
+        val url = "${transactionUrl}/cancelTransaction/$orderId"
+        val stringRequest = object :StringRequest(
+            Method.POST,url,{
+                Log.d("cancel", it.toString())
+                val result = JSONObject(it)
+                Log.d("cancel response", "cancel response : $it")
+                val isSuccess = result.getBoolean("isSuccess")
+                if(isSuccess){
+                    val data = result.getString("data")
+                    val transResult = Gson().fromJson(data, TransactionResult::class.java)
+                    cancelOrderLD.value = ServiceResult(true, null, transResult)
+                }else{
+                    val errMessage = result.getString("errorMessage")
+                    cancelOrderLD.value = ServiceResult(false, errMessage, null)
+                }
+
+            },{
+                cancelOrderLD.value = ServiceResult(false, it.message, null)
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                return getAuthorizationHeaders(activity)
+            }
+
+            override fun getParams(): MutableMap<String, String> {
+                val body = HashMap<String, String>()
+                body["reason"] = reason
+                return body
             }
         }
         stringRequest.tag = TAG

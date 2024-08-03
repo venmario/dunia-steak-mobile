@@ -10,12 +10,15 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.restoapp.R
 import com.example.restoapp.adapter.HistoryOrderListAdapter
 import com.example.restoapp.databinding.FragmentHistoryDetailBinding
 import com.example.restoapp.util.convertToRupiah
+import com.example.restoapp.viewmodel.OrderViewModel
 import com.example.restoapp.viewmodel.TransactionViewModel
 import com.midtrans.sdk.uikit.api.model.CustomColorTheme
 import com.midtrans.sdk.uikit.api.model.TransactionResult
@@ -26,6 +29,7 @@ class HistoryDetailFragment : Fragment() {
     private lateinit var binding: FragmentHistoryDetailBinding
     private lateinit var viewmodel: TransactionViewModel
     private val historyOrderDetailListAdapter = HistoryOrderListAdapter (arrayListOf())
+    private val vmOrder: OrderViewModel by activityViewModels()
 
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -42,7 +46,7 @@ class HistoryDetailFragment : Fragment() {
                             UiKitConstants.STATUS_SETTLEMENT -> {
                                 val transactionId = transactionResult.transactionId
                                 viewmodel.getTransactionById(requireActivity(), transactionId!!)
-                                binding.buttonPay.visibility = View.GONE
+                                binding.layoutPendingPayment.visibility = View.GONE
                             }
                             else -> {
                                 val transactionId = transactionResult.transactionId
@@ -69,7 +73,10 @@ class HistoryDetailFragment : Fragment() {
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter = historyOrderDetailListAdapter
         binding.vaContainer.visibility = View.GONE
-        binding.buttonPay.visibility = View.GONE
+        binding.layoutPendingPayment.visibility = View.GONE
+        binding.containerCancelReason.visibility = View.GONE
+        binding.containerRefundReason.visibility = View.GONE
+        binding.layoutPendingPaymentBankTF.visibility = View.GONE
         viewmodel = ViewModelProvider(this).get(TransactionViewModel::class.java)
 
         val transactionId = HistoryDetailFragmentArgs.fromBundle(requireArguments()).transactionId
@@ -84,21 +91,22 @@ class HistoryDetailFragment : Fragment() {
                     shimmerLayout.stopShimmer()
                     shimmerLayout.visibility = View.GONE
                     dataLayout.visibility = View.VISIBLE
-                    buttonPay.visibility = View.GONE
+                    layoutPendingPayment.visibility = View.GONE
+                    layoutPendingPaymentBankTF.visibility = View.GONE
+                    containerCancelReason.visibility = View.GONE
+                    containerRefundReason.visibility = View.GONE
                     when(it.paymentType){
                         "shopeepay" -> {
                             imagePaymentPlatform.setImageResource(com.midtrans.sdk.uikit.R.drawable.ic_em_shopeepay_40)
                             Log.d("status", it.status)
                             if (it.status == "waiting payment"){
-                                buttonPay.visibility = View.VISIBLE
-                                buttonPay.text = "Pay with ShopeePay"
+                                layoutPendingPayment.visibility = View.VISIBLE
                             }
                         }
                         "gopay" -> {
                             imagePaymentPlatform.setImageResource(R.drawable.gopay)
                             if (it.status == "waiting payment"){
-                                buttonPay.visibility = View.VISIBLE
-                                buttonPay.text = "Pay with Gopay"
+                                layoutPendingPayment.visibility = View.VISIBLE
                             }
                         }
                         "bank_transfer"->{
@@ -110,12 +118,24 @@ class HistoryDetailFragment : Fragment() {
                             if (it.status == "waiting payment") {
                                 vaContainer.visibility = View.VISIBLE
                                 vaNumber.text = it.vaNumber
+                                layoutPendingPaymentBankTF.visibility = View.VISIBLE
+                                buttonCancelBankTF.setOnClickListener {btn->
+                                    vmOrder.selectCancelOrder(it.orderId)
+                                    val action = HistoryDetailFragmentDirections.actionCanclerOrder()
+                                    Navigation.findNavController(btn).navigate(action)
+                                }
                             }
                         }
                     }
                     if (it.status == "Processing"){
                         textReady.text = "Ready at ${it.estimation}"
                         textReady.visibility = View.VISIBLE
+                    }else if(it.status == "cancel"){
+                        txtCancelReason.text = it.cancelReason
+                        containerCancelReason.visibility = View.VISIBLE
+                    }else if(it.status == "refund"){
+                        txtCancelReason.text = it.refundReason
+                        containerRefundReason.visibility = View.VISIBLE
                     }
                     textStatus.text = it.status.uppercase()
                     textOrderId.text = "#${it.orderId}"
@@ -138,7 +158,12 @@ class HistoryDetailFragment : Fragment() {
                         else -> "GoPay"
                     }
                     txtTotal.text = convertToRupiah(it.grandTotal)
-                    buttonPay.setOnClickListener {btn ->
+                    buttonCancel.setOnClickListener {btn->
+                        vmOrder.selectCancelOrder(it.orderId)
+                        val action = HistoryDetailFragmentDirections.actionCanclerOrder()
+                        Navigation.findNavController(btn).navigate(action)
+                    }
+                    buttonPay.setOnClickListener {_ ->
                         UiKitApi.getDefaultInstance().startPaymentUiFlow(
                             activity = requireActivity(),
                             launcher = launcher,

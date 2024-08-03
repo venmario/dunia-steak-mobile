@@ -9,16 +9,15 @@
     >
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include layout="@layout/fragment_history_detail_skeleton"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dataLayout"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -125,7 +124,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
+                    android:paddingBottom="48dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -263,6 +262,58 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/containerCancelReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="16dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/md_theme_secondary"
+                            android:text="Cancel Reason" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/txtCancelReason"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/md_theme_secondary"
+                            android:text="Lack of money" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerRefundReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="16dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/md_theme_secondary"
+                            android:text="Refund Reason" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/txtRefundReason"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/md_theme_secondary"
+                            android:text="Empty Stock" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -295,8 +346,8 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
-        <Button
-            android:id="@+id/buttonPay"
+        <LinearLayout
+            android:id="@+id/layoutPendingPaymentBankTF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -305,11 +356,55 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:visibility="gone"
-            android:text="Pay with ShopeePay"
-            android:fontFamily="@font/futura_bold"
-            android:textSize="18sp"
-            android:backgroundTint="@color/md_theme_primary"
-            android:textColor="@color/md_theme_secondary"/>
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/buttonCancelBankTF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel Order"
+                android:fontFamily="@font/futura_bold"
+                android:textSize="18sp"
+                app:strokeColor="@color/md_theme_primary"
+                app:strokeWidth="2dp"
+                android:backgroundTint="@color/md_theme_surface"
+                android:textColor="@color/md_theme_secondary"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutPendingPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:fontFamily="@font/futura_bold"
+                android:textSize="18sp"
+                app:strokeColor="@color/md_theme_primary"
+                app:strokeWidth="2dp"
+                android:backgroundTint="@color/md_theme_surface"
+                android:textColor="@color/md_theme_secondary"/>
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="0dp"/>
+            <Button
+                android:id="@+id/buttonPay"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Pay"
+                android:fontFamily="@font/futura_bold"
+                android:textSize="18sp"
+                android:backgroundTint="@color/md_theme_primary"
+                android:textColor="@color/md_theme_secondary"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
