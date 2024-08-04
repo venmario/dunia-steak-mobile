@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
 import com.example.restoapp.R
 import com.example.restoapp.adapter.CartListAdapter
+import com.example.restoapp.bean.DsDateValidator
 import com.example.restoapp.databinding.FragmentCheckoutBinding
 import com.example.restoapp.global.GlobalData
 import com.example.restoapp.model.OrderDetail
@@ -28,6 +29,8 @@ import com.example.restoapp.view.auth.LoginActivity
 import com.example.restoapp.viewmodel.OrderViewModel
 import com.example.restoapp.viewmodel.StoreViewModel
 import com.example.restoapp.viewmodel.TransactionViewModel
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -37,7 +40,9 @@ import com.midtrans.sdk.uikit.external.UiKitApi
 import com.midtrans.sdk.uikit.internal.util.UiKitConstants
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
+import java.util.TimeZone
 
 class CheckoutFragment : Fragment() {
 
@@ -102,8 +107,10 @@ class CheckoutFragment : Fragment() {
 
         checkOrderDetail(orderDetails)
         var time:String? = null
+        var date:String? = null
         var isScheduledOrder = false
         notScheduledOrder()
+
         val timePicker = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
@@ -112,12 +119,35 @@ class CheckoutFragment : Fragment() {
             .build()
 
         timePicker.addOnPositiveButtonClickListener {
-            isScheduledOrder = true
-            scheduledOrder()
             val hour = timePicker.hour
             val minute = timePicker.minute
-            time = String.format("%02d:%02d", hour, minute)
-            binding.textOrderAt.text = time
+
+            val today = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
+
+            val selectedBookingDateTime = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
+
+
+            val splittedDate = date!!.split("-")
+//            val selectedBookingDateTime = Date(splittedDate[0].toInt(), splittedDate[1].toInt(), splittedDate[2].toInt(), hour, minute)
+//            Log.d("date", "${splittedDate[0].toInt()}, ${splittedDate[1].toInt()}, ${splittedDate[2].toInt()}, $hour, $minute")
+            selectedBookingDateTime.set(splittedDate[0].toInt(), splittedDate[1].toInt()-1, splittedDate[2].toInt(), hour, minute)
+            Log.d("today", today.timeInMillis.toString())
+            Log.d("selectedBookingDatetime", selectedBookingDateTime.time.toString())
+            if (today.timeInMillis < selectedBookingDateTime.timeInMillis){
+                time = String.format("%02d:%02d", hour, minute)
+
+                isScheduledOrder = true
+                scheduledOrder()
+                binding.textOrderAt.text = "$date $time"
+            }else{
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Alert!")
+                    .setMessage("Cannot book at passed hour")
+                    .show()
+                binding.chipOrderNow.isChecked = true
+                notScheduledOrder()
+                time = null
+            }
         }
         timePicker.addOnDismissListener {
             if (!isScheduledOrder){
@@ -126,6 +156,56 @@ class CheckoutFragment : Fragment() {
                 time = null
             }
         }
+
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
+
+        val currentDate = calendar.timeInMillis
+        Log.d("time", "date : ${calendar.get(Calendar.DAY_OF_MONTH)}, hour : ${calendar.get(Calendar.HOUR)}, minute : ${calendar.get(Calendar.MINUTE)}")
+
+        val currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        val remainingDays = lastDayOfMonth - currentDayOfMonth
+        val endDate: Long
+        if (remainingDays < 7){
+            calendar[Calendar.MONTH] = Calendar.getInstance().get(Calendar.MONTH) + 1
+            endDate = calendar.timeInMillis
+        }else{
+            endDate = currentDate
+        }
+        val constraintsBuilder =
+            CalendarConstraints.Builder()
+                .setStart(currentDate)
+                .setEnd(endDate)
+                .setValidator(DsDateValidator())
+
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(currentDate)
+            .setCalendarConstraints(constraintsBuilder.build())
+            .setTheme(R.style.ThemeOverlay_App_DatePicker)
+            .build()
+
+        datePicker.addOnPositiveButtonClickListener {
+            if (datePicker.selection != null){
+                val selectedDate = Calendar.getInstance()
+                selectedDate.timeInMillis = datePicker.selection!!
+                val selectedDay = selectedDate.get(Calendar.DAY_OF_MONTH)
+                val selectedMonth = selectedDate.get(Calendar.MONTH) + 1
+                val selectedYear = selectedDate.get(Calendar.YEAR)
+                date = String.format("%d-%02d-%02d",selectedYear, selectedMonth, selectedDay)
+                timePicker.show(parentFragmentManager, "timePicker")
+                Log.d("datepicker",datePicker.selection.toString())
+            }
+        }
+        datePicker.addOnDismissListener {
+            Log.d("datepicker","dismiss")
+            if (date == null){
+                binding.chipOrderNow.isChecked = true
+                notScheduledOrder()
+            }
+        }
+
         binding.buttonContinue.setOnClickListener {
             val (accToken) = getAccToken(requireActivity())
             accToken?.let {
@@ -180,7 +260,8 @@ class CheckoutFragment : Fragment() {
                                             }
                                         }
                                         Log.d("localtime","test")
-                                        vmTrans.createTransaction(orderDetails,isScheduledOrder,time,requireActivity())
+                                        val dateTime = "$date $time"
+                                        vmTrans.createTransaction(orderDetails,isScheduledOrder,dateTime,requireActivity())
                                     }else{
                                         //store closed
                                         MaterialAlertDialogBuilder(requireContext())
@@ -203,12 +284,15 @@ class CheckoutFragment : Fragment() {
 
         binding.chipOrderNow.setOnClickListener {
             isScheduledOrder = false
+            date = null
+            time = null
             notScheduledOrder()
         }
 
         binding.chipScheduleOrder.setOnClickListener {
             Log.d("chip schedule order","clicked")
-            timePicker.show(parentFragmentManager, "tag")
+            date = null
+            datePicker.show(parentFragmentManager, "tag")
         }
 
         observeViewModel()

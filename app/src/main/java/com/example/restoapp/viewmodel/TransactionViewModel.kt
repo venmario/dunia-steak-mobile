@@ -42,7 +42,7 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
     private val transactionUrl = "${GlobalData.apiUrl}/transaction"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createTransaction(orderDetails: ArrayList<OrderDetail>,isBooking:Boolean,time:String?, activity: Activity){
+    fun createTransaction(orderDetails: ArrayList<OrderDetail>,isBooking:Boolean,dateTime:String?, activity: Activity){
         queue = Volley.newRequestQueue(getApplication())
         val url = "${transactionUrl}/createTransaction"
         val current = LocalDateTime.now()
@@ -64,8 +64,8 @@ class TransactionViewModel(application: Application): AndroidViewModel(applicati
         }
         body.put("order_detail", jsonArray)
         body.put("isBooking", isBooking)
-        if (time !=null){
-            body.put("time",time)
+        if (dateTime !=null){
+            body.put("dateTime",dateTime)
         }
 
         Log.d("body", body.toString())

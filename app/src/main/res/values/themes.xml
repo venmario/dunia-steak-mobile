@@ -142,4 +142,8 @@
         <item name="android:maxLines">4</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+        <item name="colorPrimary">@color/md_theme_primary</item>
+    </style>
 </resources>
